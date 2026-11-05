@@ -1,0 +1,6 @@
+{
+  "name": "Kinetic Teal CRM - Enterprise Leads Command Center",
+  "description": "CRM de alto rendimiento en Dark Mode Precision Glassmorphism con gestión de pipeline, métricas en tiempo real, backup JSON y persistencia local.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

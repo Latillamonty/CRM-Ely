@@ -1,0 +1,64 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   AQUÍ CAMBIAS EL ESTILO
+   Variables CSS globales: Paleta Kinetic Teal, tipografía, bordes y radios.
+   ========================================================================== */
+:root {
+  --color-canvas: #051c24;
+  --color-canvas-sub: #04151b;
+  --color-surface-base: rgba(10, 39, 50, 0.72);
+  --color-surface-base-solid: #0a2732;
+  --color-surface-raised: rgba(14, 52, 66, 0.88);
+  --color-surface-raised-solid: #0e3442;
+  --color-surface-overlay: #07212b;
+  
+  --color-primary: #d3ec00;         /* Electric Lime / Acid Green */
+  --color-primary-hover: #e2fd0d;
+  --color-on-primary: #051c24;
+  --color-secondary: #00e5ff;       /* Cyan Neón */
+  --color-tertiary: #1e4e5f;
+  
+  --color-text-primary: #f0fdf4;
+  --color-text-secondary: #cfe6f1;
+  --color-text-muted: #7e9ca7;
+  
+  --color-border-subtle: rgba(255, 255, 255, 0.08);
+  --color-border-hover: rgba(211, 236, 0, 0.28);
+  --color-border-focus: rgba(211, 236, 0, 0.85);
+
+  --color-success: #00e676;
+  --color-success-bg: rgba(0, 230, 118, 0.12);
+  --color-warning: #ffb703;
+  --color-warning-bg: rgba(255, 183, 3, 0.12);
+  --color-danger: #ff5252;
+  --color-danger-bg: rgba(255, 82, 82, 0.15);
+
+  --font-headings: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'Space Mono', monospace;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-pill: 9999px;
+
+  --shadow-primary-glow: 0 0 20px rgba(211, 236, 0, 0.35);
+  --shadow-card: 0 12px 32px -8px rgba(0, 0, 0, 0.45), 0 0 16px -2px rgba(211, 236, 0, 0.04);
+}
+
+body {
+  background-color: var(--color-canvas);
+  background-image: 
+    radial-gradient(circle at 15% 10%, rgba(0, 229, 255, 0.05) 0%, transparent 40%),
+    radial-gradient(circle at 85% 90%, rgba(211, 236, 0, 0.04) 0%, transparent 45%);
+  color: var(--color-text-primary);
+  font-family: var(--font-headings);
+  min-height: 100vh;
+  margin: 0;
+  overflow-x: hidden;
+}
+
+.mono-font {
+  font-family: var(--font-mono);
+}

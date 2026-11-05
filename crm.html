@@ -1,0 +1,3314 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kinetic Teal CRM - Tablero, ICP & Logros</title>
+  <meta name="description" content="CRM de ventas B2B con Tablero Kanban, Perfil de Cliente Ideal (ICP), Mapa de Empatía, Sistema de Logros con XP ético, insignias y retos con cofre.">
+  
+  <!-- Tipografías Outfit y Space Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+       AQUÍ CAMBIAS EL ESTILO
+       Variables CSS principales: colores, tipografía, esquinas, sombras y ritmo.
+       Puedes modificar cualquiera de estos valores para cambiar la apariencia total.
+       ========================================================================== */
+    :root {
+      /* Paleta Kinetic Teal */
+      --color-canvas: #051c24;                 /* Fondo profundo estilo petrol oceánico */
+      --color-canvas-sub: #04151b;             /* Fondo de barras y columnas */
+      --color-surface-base: rgba(10, 39, 50, 0.75); /* Tarjetas estándar con glassmorphism */
+      --color-surface-raised: rgba(14, 52, 66, 0.92); /* Tarjeta al elevarse o hover */
+      --color-surface-overlay: #07212b;        /* Modales, drawers y paneles */
+      
+      /* Acentos y colores funcionales */
+      --color-primary: #d3ec00;                /* Electric Lime / Acid Green */
+      --color-primary-hover: #e2fd0d;
+      --color-on-primary: #051c24;             /* Texto legible sobre lima */
+      --color-secondary: #00e5ff;              /* Cyan Neón */
+      --color-tertiary: #1e4e5f;
+      
+      /* Textos */
+      --color-text-primary: #f0fdf4;
+      --color-text-secondary: #cfe6f1;
+      --color-text-muted: #7e9ca7;
+      
+      /* Bordes luminosos */
+      --color-border-subtle: rgba(255, 255, 255, 0.08);
+      --color-border-hover: rgba(211, 236, 0, 0.35);
+      --color-border-focus: rgba(211, 236, 0, 0.85);
+
+      /* Estados y etapas */
+      --stage-nuevo: #94a3b8;
+      --stage-contactado: #38bdf8;
+      --stage-reunion: #a855f7;
+      --stage-propuesta: #ffb703;
+      --stage-ganado: #d3ec00;
+      --stage-perdido: #ef4444;
+
+      /* Tipografía */
+      --font-headings: 'Outfit', system-ui, -apple-system, sans-serif;
+      --font-mono: 'Space Mono', monospace, ui-monospace;
+
+      /* Esquinas y bordes */
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 16px;
+      --radius-xl: 24px;
+      --radius-pill: 9999px;
+
+      /* Efectos */
+      --shadow-primary-glow: 0 0 20px rgba(211, 236, 0, 0.35);
+      --shadow-secondary-glow: 0 0 20px rgba(0, 229, 255, 0.25);
+      --shadow-card: 0 8px 24px -4px rgba(0, 0, 0, 0.45);
+      --backdrop-blur: 16px;
+    }
+
+    /* Reset */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background-color: var(--color-canvas);
+      background-image: 
+        radial-gradient(circle at 12% 10%, rgba(0, 229, 255, 0.06) 0%, transparent 40%),
+        radial-gradient(circle at 88% 90%, rgba(211, 236, 0, 0.05) 0%, transparent 45%);
+      color: var(--color-text-primary);
+      font-family: var(--font-headings);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    .mono {
+      font-family: var(--font-mono);
+      letter-spacing: -0.02em;
+    }
+
+    /* Barra Superior */
+    .top-navbar {
+      background: rgba(5, 28, 36, 0.90);
+      backdrop-filter: blur(var(--backdrop-blur));
+      border-bottom: 1px solid var(--color-border-subtle);
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-badge {
+      width: 38px;
+      height: 38px;
+      border-radius: var(--radius-md);
+      background: var(--color-primary);
+      color: var(--color-on-primary);
+      font-weight: 800;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow-primary-glow);
+    }
+
+    .brand-title {
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .brand-subtitle {
+      font-size: 10px;
+      font-family: var(--font-mono);
+      color: var(--color-secondary);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    /* Navegación entre las 4 pantallas */
+    .nav-tabs {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(4, 21, 27, 0.7);
+      padding: 4px;
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--color-border-subtle);
+    }
+
+    .nav-tab-btn {
+      background: transparent;
+      border: none;
+      color: var(--color-text-muted);
+      font-family: var(--font-headings);
+      font-weight: 600;
+      font-size: 12px;
+      padding: 7px 14px;
+      border-radius: var(--radius-pill);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-tab-btn:hover {
+      color: var(--color-text-primary);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .nav-tab-btn.active {
+      background: rgba(211, 236, 0, 0.15);
+      color: var(--color-primary);
+      border: 1px solid rgba(211, 236, 0, 0.3);
+    }
+
+    .nav-xp-pill {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(211, 236, 0, 0.1);
+      border: 1px solid rgba(211, 236, 0, 0.3);
+      padding: 4px 12px;
+      border-radius: var(--radius-pill);
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .nav-xp-pill:hover {
+      transform: scale(1.03);
+      background: rgba(211, 236, 0, 0.18);
+    }
+
+    .actions-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    /* Botones */
+    .btn {
+      font-family: var(--font-headings);
+      font-weight: 600;
+      font-size: 13px;
+      padding: 8px 16px;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      border: 1px solid transparent;
+      text-decoration: none;
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .btn-primary {
+      background: var(--color-primary);
+      color: var(--color-on-primary);
+      border-color: var(--color-primary);
+      box-shadow: 0 0 14px rgba(211, 236, 0, 0.25);
+    }
+
+    .btn-primary:hover {
+      background: var(--color-primary-hover);
+      box-shadow: var(--shadow-primary-glow);
+    }
+
+    .btn-secondary {
+      background: rgba(14, 52, 66, 0.65);
+      color: var(--color-text-primary);
+      border-color: var(--color-border-subtle);
+      backdrop-filter: blur(8px);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(14, 52, 66, 0.95);
+      border-color: var(--color-border-hover);
+    }
+
+    .btn-accent {
+      background: rgba(0, 229, 255, 0.15);
+      color: var(--color-secondary);
+      border-color: rgba(0, 229, 255, 0.35);
+    }
+
+    .btn-accent:hover {
+      background: rgba(0, 229, 255, 0.25);
+      border-color: var(--color-secondary);
+    }
+
+    .btn-sm {
+      padding: 5px 12px;
+      font-size: 12px;
+    }
+
+    /* Interruptor (Toggle Switch) */
+    .switch-wrap {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(4, 21, 27, 0.65);
+      padding: 5px 12px;
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--color-border-subtle);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .switch-track {
+      width: 38px;
+      height: 20px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: var(--radius-pill);
+      position: relative;
+      transition: background-color 0.2s ease;
+    }
+
+    .switch-track.active {
+      background: var(--color-primary);
+    }
+
+    .switch-thumb {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: white;
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .switch-track.active .switch-thumb {
+      transform: translateX(18px);
+      background: var(--color-on-primary);
+    }
+
+    .switch-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--color-text-secondary);
+    }
+
+    /* Tira de Telemetría y Controles de Pesos */
+    .sub-bar {
+      background: rgba(4, 21, 27, 0.7);
+      border-bottom: 1px solid var(--color-border-subtle);
+      padding: 10px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      font-size: 12px;
+      color: var(--color-text-muted);
+      flex-wrap: wrap;
+    }
+
+    .sub-bar-left {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .stat-pill {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      color: var(--color-text-primary);
+    }
+
+    /* Contenedor de Pantallas */
+    .screen-view {
+      display: none;
+      flex: 1;
+    }
+
+    .screen-view.active {
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* PANTALLA 1: Tablero Kanban */
+    .kanban-viewport {
+      flex: 1;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 20px 24px 28px 24px;
+    }
+
+    .kanban-board {
+      display: grid;
+      grid-template-columns: repeat(6, 320px);
+      gap: 18px;
+      align-items: start;
+    }
+
+    .kanban-col {
+      background: rgba(4, 21, 27, 0.85);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-lg);
+      display: flex;
+      flex-direction: column;
+      max-height: calc(100vh - 190px);
+      backdrop-filter: blur(12px);
+    }
+
+    .col-header {
+      padding: 14px 16px 12px 16px;
+      border-bottom: 1px solid var(--color-border-subtle);
+    }
+
+    .col-header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+
+    .col-title-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .col-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .dot-nuevo { background-color: var(--stage-nuevo); }
+    .dot-contactado { background-color: var(--stage-contactado); }
+    .dot-reunion { background-color: var(--stage-reunion); }
+    .dot-propuesta { background-color: var(--stage-propuesta); }
+    .dot-ganado { background-color: var(--stage-ganado); }
+    .dot-perdido { background-color: var(--stage-perdido); }
+
+    .col-name {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .col-count {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--color-text-secondary);
+      padding: 2px 7px;
+      border-radius: var(--radius-pill);
+    }
+
+    .col-sum-wrap {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      font-family: var(--font-mono);
+    }
+
+    .col-sum-val {
+      font-weight: 700;
+      color: var(--color-secondary);
+    }
+
+    .col-cards-dropzone {
+      padding: 12px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-height: 140px;
+      transition: background-color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .col-cards-dropzone.drag-over {
+      background: rgba(211, 236, 0, 0.08);
+      border: 1px dashed var(--color-primary);
+      border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+    }
+
+    /* Tarjetas de Lead */
+    .lead-card {
+      background: var(--color-surface-base);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-md);
+      padding: 14px;
+      cursor: grab;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: var(--shadow-card);
+      position: relative;
+    }
+
+    .lead-card:hover {
+      background: var(--color-surface-raised);
+      border-color: var(--color-border-hover);
+      transform: translateY(-2px);
+    }
+
+    .lead-card.dragging {
+      opacity: 0.45;
+      cursor: grabbing;
+      transform: scale(0.97);
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 8px;
+    }
+
+    .lead-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--color-text-primary);
+      line-height: 1.3;
+    }
+
+    .lead-contact {
+      font-size: 11px;
+      color: var(--color-text-muted);
+      margin-top: 2px;
+    }
+
+    .card-val-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin: 10px 0 8px 0;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .lead-value {
+      font-family: var(--font-mono);
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--color-primary);
+    }
+
+    /* 5. % de encaje con el texto EXACTO "parecido con tu cliente ideal" */
+    .card-fit-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 8px;
+      border-radius: var(--radius-sm);
+      margin-bottom: 10px;
+      width: 100%;
+      box-sizing: border-box;
+      line-height: 1.25;
+    }
+
+    .badge-fit-high {
+      background: rgba(211, 236, 0, 0.15);
+      color: var(--color-primary);
+      border: 1px solid rgba(211, 236, 0, 0.35);
+    }
+
+    .badge-fit-mid {
+      background: rgba(0, 229, 255, 0.12);
+      color: var(--color-secondary);
+      border: 1px solid rgba(0, 229, 255, 0.3);
+    }
+
+    .badge-fit-low {
+      background: rgba(148, 163, 184, 0.1);
+      color: #94a3b8;
+      border: 1px solid rgba(148, 163, 184, 0.2);
+    }
+
+    .lead-next-action {
+      background: rgba(0, 0, 0, 0.25);
+      padding: 6px 10px;
+      border-radius: var(--radius-sm);
+      font-size: 11px;
+      color: var(--color-text-secondary);
+      margin-bottom: 10px;
+      border-left: 2px solid var(--color-secondary);
+    }
+
+    .lead-date {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--color-text-muted);
+      margin-top: 3px;
+    }
+
+    /* Menú móvil "Mover a..." y acciones */
+    .card-actions-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 6px;
+      margin-top: 6px;
+    }
+
+    .stage-select {
+      background: rgba(4, 21, 27, 0.9);
+      color: var(--color-text-secondary);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 4px 8px;
+      font-size: 11px;
+      font-family: var(--font-headings);
+      cursor: pointer;
+      flex: 1;
+    }
+
+    .btn-icon {
+      background: transparent;
+      border: none;
+      color: var(--color-text-muted);
+      cursor: pointer;
+      padding: 4px;
+      border-radius: var(--radius-sm);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-icon:hover {
+      color: var(--color-text-primary);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    /* PANTALLA 3: LOGROS & HÁBITOS (REQUERIMIENTO PRINCIPAL) */
+    .achievements-screen {
+      padding: 28px;
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .level-hero-card {
+      background: linear-gradient(135deg, rgba(14, 52, 66, 0.85) 0%, rgba(5, 28, 36, 0.95) 100%);
+      border: 1px solid rgba(211, 236, 0, 0.3);
+      border-radius: var(--radius-xl);
+      padding: 24px 32px;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.4), 0 0 24px rgba(211, 236, 0, 0.1);
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .level-hero-left {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .level-emblem {
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #e2fd0d 0%, #a4b800 100%);
+      color: #051c24;
+      font-weight: 800;
+      font-size: 26px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 25px rgba(211, 236, 0, 0.6);
+      font-family: var(--font-mono);
+      flex-shrink: 0;
+    }
+
+    .level-info-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--color-text-primary);
+      letter-spacing: -0.01em;
+    }
+
+    .level-info-subtitle {
+      font-size: 13px;
+      color: var(--color-text-muted);
+      margin-top: 4px;
+    }
+
+    .level-progress-wrap {
+      flex: 1;
+      min-width: 280px;
+    }
+
+    .level-progress-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      margin-bottom: 8px;
+    }
+
+    .level-bar-bg {
+      height: 12px;
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: var(--radius-pill);
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      position: relative;
+    }
+
+    .level-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #00e5ff 0%, #d3ec00 100%);
+      border-radius: var(--radius-pill);
+      transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 0 12px rgba(211, 236, 0, 0.5);
+    }
+
+    /* Reglas de XP por buenos hábitos */
+    .xp-rules-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+
+    .xp-rule-card {
+      background: rgba(10, 39, 50, 0.5);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .xp-rule-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--color-text-secondary);
+    }
+
+    .xp-rule-pts {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--color-primary);
+      background: rgba(211, 236, 0, 0.12);
+      padding: 3px 8px;
+      border-radius: var(--radius-sm);
+      white-space: nowrap;
+    }
+
+    /* Cuadrícula de Insignias y Retos */
+    .achievements-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 28px;
+    }
+
+    .panel-card {
+      background: rgba(10, 39, 50, 0.65);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      backdrop-filter: blur(14px);
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--color-border-subtle);
+    }
+
+    .panel-title {
+      font-size: 16px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--color-text-primary);
+    }
+
+    /* Insignias de 3 niveles con opacidad gradual verde lima */
+    .badge-tiers-group {
+      background: rgba(4, 21, 27, 0.5);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-md);
+      padding: 14px;
+      margin-bottom: 14px;
+    }
+
+    .badge-group-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--color-text-primary);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+
+    .badge-group-desc {
+      font-size: 11px;
+      color: var(--color-text-muted);
+      margin-bottom: 12px;
+    }
+
+    .badge-tiers-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .badge-tier-box {
+      border-radius: var(--radius-md);
+      padding: 12px 10px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+      background: rgba(5, 28, 36, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    /* 3 niveles de opacidad en verde lima (#d3ec00):
+       Nivel 1: suave (35% opacidad)
+       Nivel 2: medio (70% opacidad)
+       Nivel 3: pleno (100% resplandor) */
+    .tier-unlocked-1 {
+      border-color: rgba(211, 236, 0, 0.35);
+      background: rgba(211, 236, 0, 0.08);
+    }
+    .tier-unlocked-1 .tier-icon {
+      color: #d3ec00;
+      opacity: 0.45;
+    }
+
+    .tier-unlocked-2 {
+      border-color: rgba(211, 236, 0, 0.65);
+      background: rgba(211, 236, 0, 0.16);
+    }
+    .tier-unlocked-2 .tier-icon {
+      color: #d3ec00;
+      opacity: 0.8;
+      filter: drop-shadow(0 0 4px rgba(211, 236, 0, 0.4));
+    }
+
+    .tier-unlocked-3 {
+      border-color: #d3ec00;
+      background: rgba(211, 236, 0, 0.28);
+      box-shadow: 0 0 16px rgba(211, 236, 0, 0.35);
+    }
+    .tier-unlocked-3 .tier-icon {
+      color: #d3ec00;
+      opacity: 1;
+      filter: drop-shadow(0 0 8px rgba(211, 236, 0, 0.8));
+    }
+
+    .tier-locked {
+      opacity: 0.35;
+      filter: grayscale(1);
+    }
+
+    .tier-name {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--color-text-primary);
+    }
+
+    .tier-req {
+      font-size: 10px;
+      font-family: var(--font-mono);
+      color: var(--color-text-muted);
+    }
+
+    /* Retos con Cofre */
+    .quest-card {
+      background: rgba(4, 21, 27, 0.6);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .quest-info {
+      flex: 1;
+    }
+
+    .quest-tag {
+      font-size: 10px;
+      font-family: var(--font-mono);
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 2px 6px;
+      border-radius: var(--radius-sm);
+      display: inline-block;
+      margin-bottom: 6px;
+    }
+
+    .tag-semanal {
+      background: rgba(0, 229, 255, 0.15);
+      color: var(--color-secondary);
+    }
+
+    .tag-mensual {
+      background: rgba(211, 236, 0, 0.15);
+      color: var(--color-primary);
+    }
+
+    .quest-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--color-text-primary);
+      margin-bottom: 4px;
+    }
+
+    .quest-desc {
+      font-size: 11px;
+      color: var(--color-text-muted);
+      margin-bottom: 8px;
+    }
+
+    .quest-progress-bar {
+      height: 6px;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: var(--radius-pill);
+      overflow: hidden;
+    }
+
+    .quest-progress-fill {
+      height: 100%;
+      background: var(--color-secondary);
+      border-radius: var(--radius-pill);
+      transition: width 0.3s ease;
+    }
+
+    /* Cofre Interactivo */
+    .chest-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      user-select: none;
+      flex-shrink: 0;
+    }
+
+    .chest-box {
+      width: 58px;
+      height: 58px;
+      border-radius: var(--radius-md);
+      background: rgba(14, 52, 66, 0.8);
+      border: 1px solid var(--color-border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+    }
+
+    .chest-box.ready {
+      border-color: var(--color-primary);
+      background: rgba(211, 236, 0, 0.2);
+      animation: chestPulse 1.6s infinite ease-in-out;
+      box-shadow: 0 0 20px rgba(211, 236, 0, 0.4);
+    }
+
+    .chest-box.claimed {
+      opacity: 0.7;
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    @keyframes chestPulse {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 12px rgba(211, 236, 0, 0.3); }
+      50% { transform: scale(1.08); box-shadow: 0 0 24px rgba(211, 236, 0, 0.7); }
+    }
+
+    .chest-label {
+      font-size: 10px;
+      font-family: var(--font-mono);
+      font-weight: 700;
+      color: var(--color-text-muted);
+      text-align: center;
+    }
+
+    .chest-label.ready {
+      color: var(--color-primary);
+    }
+
+    /* Galería de Insignias Personalizadas */
+    .custom-badges-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .custom-badge-card {
+      background: rgba(4, 21, 27, 0.65);
+      border: 1px solid rgba(211, 236, 0, 0.3);
+      border-radius: var(--radius-md);
+      padding: 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .star-icon-wrap {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-md);
+      background: rgba(211, 236, 0, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 0 14px rgba(211, 236, 0, 0.2);
+    }
+
+    /* Tarjeta de Reglas Éticas */
+    .ethical-card {
+      background: linear-gradient(135deg, rgba(7, 33, 43, 0.7) 0%, rgba(4, 21, 27, 0.85) 100%);
+      border: 1px solid rgba(0, 229, 255, 0.25);
+      border-radius: var(--radius-lg);
+      padding: 20px 24px;
+      margin-top: 10px;
+    }
+
+    .ethical-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-top: 14px;
+    }
+
+    .ethical-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .ethical-icon {
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    .ethical-text-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--color-text-primary);
+    }
+
+    .ethical-text-desc {
+      font-size: 11px;
+      color: var(--color-text-muted);
+      margin-top: 2px;
+      line-height: 1.4;
+    }
+
+    /* PANTALLA 2 & 4: Contenedor General */
+    .full-page-screen {
+      padding: 28px;
+      max-width: 1100px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .form-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+
+    .form-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--color-text-secondary);
+    }
+
+    .form-control {
+      background: rgba(4, 21, 27, 0.85);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 8px 12px;
+      color: var(--color-text-primary);
+      font-family: var(--font-headings);
+      font-size: 13px;
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+
+    .form-control:focus {
+      border-color: var(--color-primary);
+    }
+
+    textarea.form-control {
+      resize: vertical;
+      min-height: 70px;
+    }
+
+    .empathy-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .empathy-box {
+      background: rgba(4, 21, 27, 0.65);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-md);
+      padding: 12px;
+    }
+
+    .empathy-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--color-secondary);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .slider-row {
+      display: grid;
+      grid-template-columns: 160px 1fr 60px;
+      align-items: center;
+      gap: 12px;
+      background: rgba(4, 21, 27, 0.5);
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--color-border-subtle);
+    }
+
+    .slider-input {
+      accent-color: var(--color-primary);
+      cursor: pointer;
+      width: 100%;
+    }
+
+    /* Modales */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(3, 16, 21, 0.8);
+      backdrop-filter: blur(12px);
+      z-index: 100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .modal-backdrop.active {
+      display: flex;
+    }
+
+    .modal-window {
+      background: var(--color-surface-overlay);
+      border: 1px solid var(--color-border-hover);
+      border-radius: var(--radius-lg);
+      width: 100%;
+      max-width: 580px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 24px;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.6);
+      position: relative;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      border-bottom: 1px solid var(--color-border-subtle);
+      padding-bottom: 12px;
+    }
+
+    .modal-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--color-text-primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .modal-close {
+      background: transparent;
+      border: none;
+      color: var(--color-text-muted);
+      cursor: pointer;
+      font-size: 18px;
+      padding: 4px;
+      border-radius: var(--radius-sm);
+    }
+
+    .modal-close:hover {
+      color: white;
+    }
+
+    /* Toast Breve para subidas de nivel e insignias (REGLA 5) */
+    .toast-box {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: rgba(14, 52, 66, 0.95);
+      border: 1px solid var(--color-primary);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), var(--shadow-primary-glow);
+      color: var(--color-text-primary);
+      padding: 12px 20px;
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      font-weight: 600;
+      display: none;
+      align-items: center;
+      gap: 10px;
+      z-index: 200;
+      backdrop-filter: blur(12px);
+      animation: toastSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes toastSlideUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    /* Modal de celebración de cofre */
+    .chest-modal-content {
+      text-align: center;
+      padding: 10px;
+    }
+
+    .chest-open-animation {
+      font-size: 64px;
+      margin-bottom: 12px;
+      animation: chestBounce 0.8s ease;
+    }
+
+    @keyframes chestBounce {
+      0% { transform: scale(0.3); opacity: 0; }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    @media (max-width: 900px) {
+      .top-navbar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .nav-tabs {
+        overflow-x: auto;
+        justify-content: flex-start;
+      }
+      .achievements-grid, .form-grid-2 {
+        grid-template-columns: 1fr;
+      }
+      .level-hero-card {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Barra Superior -->
+  <header class="top-navbar">
+    <div class="brand-wrap">
+      <div class="brand-badge">⚡</div>
+      <div>
+        <div class="brand-title">
+          <span>KINETIC SALES PIPELINE</span>
+          <span style="font-size: 11px; padding: 2px 8px; border-radius: var(--radius-pill); background: rgba(0, 229, 255, 0.12); color: var(--color-secondary); font-weight: 600;">
+            ICP & Logros
+          </span>
+        </div>
+        <div class="brand-subtitle">Comando Comercial con Gamificación Ética</div>
+      </div>
+    </div>
+
+    <!-- Navegación entre las 4 pantallas sin recargar la página -->
+    <nav class="nav-tabs">
+      <button class="nav-tab-btn active" id="tabBtn-tablero" onclick="crm.cambiarPantalla('tablero')">
+        <span>📋 Tablero</span>
+      </button>
+      <button class="nav-tab-btn" id="tabBtn-icp" onclick="crm.cambiarPantalla('icp')">
+        <span>🎯 Cliente Ideal & Pesos</span>
+      </button>
+      <button class="nav-tab-btn" id="tabBtn-logros" onclick="crm.cambiarPantalla('logros')">
+        <span>🏆 Logros</span>
+        <span id="navLevelBadge" style="font-size: 10px; background: rgba(211, 236, 0, 0.25); color: var(--color-primary); padding: 1px 6px; border-radius: 9999px;">Nvl 1</span>
+      </button>
+      <button class="nav-tab-btn" id="tabBtn-datos" onclick="crm.cambiarPantalla('datos')">
+        <span>💾 Datos & Copias</span>
+      </button>
+    </nav>
+
+    <!-- Píldora de XP Rápido -->
+    <div class="nav-xp-pill" onclick="crm.cambiarPantalla('logros')" title="Ver detalles de nivel y logros">
+      <span style="font-size: 14px;">⚡</span>
+      <div>
+        <div style="font-size: 10px; font-family: var(--font-mono); color: var(--color-text-muted);">EXP TOTAL</div>
+        <div style="font-size: 12px; font-weight: 700; color: var(--color-primary); font-family: var(--font-mono);" id="navXpText">0 XP</div>
+      </div>
+    </div>
+
+    <div class="actions-bar">
+      <!-- Interruptor ordenar por encaje -->
+      <div class="switch-wrap" onclick="crm.toggleSortByFit()" title="Activar/Desactivar ordenación por parecido con el cliente ideal">
+        <span class="switch-label">⚡ Ordenar por encaje</span>
+        <div class="switch-track" id="switchTrack">
+          <div class="switch-thumb"></div>
+        </div>
+      </div>
+
+      <!-- Botón Importar análisis (IA) -->
+      <button class="btn btn-accent btn-sm" onclick="crm.abrirModalImportarAnalisis()">
+        <span>🤖 Importar análisis</span>
+      </button>
+
+      <!-- Botón Nuevo Lead -->
+      <button class="btn btn-primary btn-sm" onclick="crm.abrirModalNuevoLead()">
+        <span>+ Nuevo Lead</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Sub-barra con resumen del pipeline -->
+  <div class="sub-bar">
+    <div class="sub-bar-left">
+      <div>
+        <span>Total Cartera: </span>
+        <span class="stat-pill" id="globalTotalValue">0 €</span>
+      </div>
+      <div>
+        <span>Leads: </span>
+        <span class="stat-pill" id="globalTotalCount">0</span>
+      </div>
+      <div>
+        <span>Encaje Medio: </span>
+        <span class="stat-pill" style="color: var(--color-primary);" id="globalAvgFit">0%</span>
+      </div>
+    </div>
+    <div style="font-size: 11px;">
+      <span style="color: var(--color-text-muted);">Nivel Comercial: </span>
+      <span id="subBarLevelTitle" style="color: var(--color-primary); font-weight: 700;">Nivel 1 • Iniciador del Pipeline</span>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       PANTALLA 1: TABLERO KANBAN
+       ========================================================================== -->
+  <section class="screen-view active" id="screen-tablero">
+    <main class="kanban-viewport">
+      <div class="kanban-board">
+        
+        <!-- Columna 1: Nuevo -->
+        <div class="kanban-col" data-stage="nuevo">
+          <div class="col-header">
+            <div class="col-header-top">
+              <div class="col-title-group">
+                <span class="col-dot dot-nuevo"></span>
+                <span class="col-name">1. Nuevo</span>
+              </div>
+              <span class="col-count" id="count-nuevo">0</span>
+            </div>
+            <div class="col-sum-wrap">
+              <span style="color: var(--color-text-muted);">Suma etapa:</span>
+              <span class="col-sum-val" id="sum-nuevo">0 €</span>
+            </div>
+          </div>
+          <div class="col-cards-dropzone" id="drop-nuevo" ondragover="crm.onDragOver(event)" ondragleave="crm.onDragLeave(event)" ondrop="crm.onDrop(event, 'nuevo')"></div>
+        </div>
+
+        <!-- Columna 2: Contactado -->
+        <div class="kanban-col" data-stage="contactado">
+          <div class="col-header">
+            <div class="col-header-top">
+              <div class="col-title-group">
+                <span class="col-dot dot-contactado"></span>
+                <span class="col-name">2. Contactado</span>
+              </div>
+              <span class="col-count" id="count-contactado">0</span>
+            </div>
+            <div class="col-sum-wrap">
+              <span style="color: var(--color-text-muted);">Suma etapa:</span>
+              <span class="col-sum-val" id="sum-contactado">0 €</span>
+            </div>
+          </div>
+          <div class="col-cards-dropzone" id="drop-contactado" ondragover="crm.onDragOver(event)" ondragleave="crm.onDragLeave(event)" ondrop="crm.onDrop(event, 'contactado')"></div>
+        </div>
+
+        <!-- Columna 3: Reunión -->
+        <div class="kanban-col" data-stage="reunion">
+          <div class="col-header">
+            <div class="col-header-top">
+              <div class="col-title-group">
+                <span class="col-dot dot-reunion"></span>
+                <span class="col-name">3. Reunión</span>
+              </div>
+              <span class="col-count" id="count-reunion">0</span>
+            </div>
+            <div class="col-sum-wrap">
+              <span style="color: var(--color-text-muted);">Suma etapa:</span>
+              <span class="col-sum-val" id="sum-reunion">0 €</span>
+            </div>
+          </div>
+          <div class="col-cards-dropzone" id="drop-reunion" ondragover="crm.onDragOver(event)" ondragleave="crm.onDragLeave(event)" ondrop="crm.onDrop(event, 'reunion')"></div>
+        </div>
+
+        <!-- Columna 4: Propuesta -->
+        <div class="kanban-col" data-stage="propuesta">
+          <div class="col-header">
+            <div class="col-header-top">
+              <div class="col-title-group">
+                <span class="col-dot dot-propuesta"></span>
+                <span class="col-name">4. Propuesta</span>
+              </div>
+              <span class="col-count" id="count-propuesta">0</span>
+            </div>
+            <div class="col-sum-wrap">
+              <span style="color: var(--color-text-muted);">Suma etapa:</span>
+              <span class="col-sum-val" id="sum-propuesta">0 €</span>
+            </div>
+          </div>
+          <div class="col-cards-dropzone" id="drop-propuesta" ondragover="crm.onDragOver(event)" ondragleave="crm.onDragLeave(event)" ondrop="crm.onDrop(event, 'propuesta')"></div>
+        </div>
+
+        <!-- Columna 5: Ganado -->
+        <div class="kanban-col" data-stage="ganado">
+          <div class="col-header">
+            <div class="col-header-top">
+              <div class="col-title-group">
+                <span class="col-dot dot-ganado"></span>
+                <span class="col-name">5. Ganado</span>
+              </div>
+              <span class="col-count" id="count-ganado">0</span>
+            </div>
+            <div class="col-sum-wrap">
+              <span style="color: var(--color-text-muted);">Suma etapa:</span>
+              <span class="col-sum-val" id="sum-ganado">0 €</span>
+            </div>
+          </div>
+          <div class="col-cards-dropzone" id="drop-ganado" ondragover="crm.onDragOver(event)" ondragleave="crm.onDragLeave(event)" ondrop="crm.onDrop(event, 'ganado')"></div>
+        </div>
+
+        <!-- Columna 6: Perdido -->
+        <div class="kanban-col" data-stage="perdido">
+          <div class="col-header">
+            <div class="col-header-top">
+              <div class="col-title-group">
+                <span class="col-dot dot-perdido"></span>
+                <span class="col-name">6. Perdido</span>
+              </div>
+              <span class="col-count" id="count-perdido">0</span>
+            </div>
+            <div class="col-sum-wrap">
+              <span style="color: var(--color-text-muted);">Suma etapa:</span>
+              <span class="col-sum-val" id="sum-perdido">0 €</span>
+            </div>
+          </div>
+          <div class="col-cards-dropzone" id="drop-perdido" ondragover="crm.onDragOver(event)" ondragleave="crm.onDragLeave(event)" ondrop="crm.onDrop(event, 'perdido')"></div>
+        </div>
+
+      </div>
+    </main>
+  </section>
+
+  <!-- ==========================================================================
+       PANTALLA 2: CLIENTE IDEAL (ICP) & MAPA DE EMPATÍA
+       ========================================================================== -->
+  <section class="screen-view" id="screen-icp">
+    <div class="full-page-screen">
+      <div class="panel-card" style="margin-bottom: 24px;">
+        <div class="panel-header">
+          <div class="panel-title">
+            <span>🎯 1. Formulario del Cliente Ideal (ICP)</span>
+          </div>
+          <button class="btn btn-primary btn-sm" onclick="crm.guardarConfigICP()">
+            <span>Guardar Perfil</span>
+          </button>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label">Sector & Industria Objetivo</label>
+            <input type="text" class="form-control" id="icpSectorInput" value="Tecnología B2B, Cloud & IA">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Tamaño & Facturación de Empresa</label>
+            <input type="text" class="form-control" id="icpTamanoInput" value="50 a 500 empleados / >5M€ facturación">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Zona Geográfica</label>
+            <input type="text" class="form-control" id="icpZonaInput" value="España, Portugal y Sur de Europa">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Presupuesto Estimado</label>
+            <input type="text" class="form-control" id="icpPresupuestoInput" value="40.000 € a 150.000 € anuales">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Problema Principal que Resuelves</label>
+            <input type="text" class="form-control" id="icpProblemaInput" value="Ineficiencia operativa y falta de integración segura en nube">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Canal por el que Compra</label>
+            <input type="text" class="form-control" id="icpCanalInput" value="Demo técnica consultiva y propuesta directa al CTO/CISO">
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Mapa de Empatía con 4 Cajas -->
+      <div class="panel-card" style="margin-bottom: 24px;">
+        <div class="panel-header">
+          <div class="panel-title">
+            <span>🧠 2. Mapa de Empatía del Comprador</span>
+          </div>
+          <span style="font-size: 11px; color: var(--color-text-muted);">¿Qué experimenta tu decisor de compra?</span>
+        </div>
+
+        <div class="empathy-grid">
+          <div class="empathy-box">
+            <div class="empathy-title">💭 ¿Qué Piensa y Siente?</div>
+            <textarea class="form-control" id="empathyPiensaInput">Teme quedarse rezagado frente a rivales que usan IA y le preocupan las brechas de seguridad o caídas de servidores.</textarea>
+          </div>
+          <div class="empathy-box">
+            <div class="empathy-title">👁️ ¿Qué Ve en su Entorno?</div>
+            <textarea class="form-control" id="empathyVeInput">Ve a empresas del sector anunciando automatizaciones y saturación de proveedores generalistas sin especialización.</textarea>
+          </div>
+          <div class="empathy-box">
+            <div class="empathy-title">🗣️ ¿Qué Dice y Hace?</div>
+            <textarea class="form-control" id="empathyDiceInput">Exige pruebas de concepto reales (PoC), pide referencias de otros CTOs y revisa rigurosamente el acuerdo de nivel de servicio.</textarea>
+          </div>
+          <div class="empathy-box">
+            <div class="empathy-title">👂 ¿Qué Oye de Otros?</div>
+            <textarea class="form-control" id="empathyOyeInput">Oye a la dirección financiera exigir reducción de costes y a sus ingenieros solicitar mejores herramientas modernas.</textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Deslizadores de PESO (1 a 5) -->
+      <div class="panel-card">
+        <div class="panel-header">
+          <div class="panel-title">
+            <span>⚖️ 3. Ponderación: Pesos de Criterios (1 a 5)</span>
+          </div>
+          <span style="font-size: 11px; color: var(--color-primary);">Al mover cualquier deslizador, se recalcula el parecido al instante</span>
+        </div>
+
+        <div id="screenWeightsSliders" style="display: flex; flex-direction: column; gap: 10px;">
+          <!-- Sliders inyectados dinámicamente -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       PANTALLA 3: LOGROS & GAMIFICACIÓN ÉTICA (PANTALLA SOLICITADA)
+       ========================================================================== -->
+  <section class="screen-view" id="screen-logros">
+    <div class="achievements-screen">
+      
+      <!-- Cabecera de Nivel y Barra de Progreso de XP -->
+      <div class="level-hero-card">
+        <div class="level-hero-left">
+          <div class="level-emblem" id="heroLevelBadge">1</div>
+          <div>
+            <div style="font-size: 11px; font-family: var(--font-mono); color: var(--color-primary); text-transform: uppercase; letter-spacing: 0.08em;">
+              NIVEL ACTUAL
+            </div>
+            <div class="level-info-title" id="heroLevelTitle">Iniciador del Pipeline</div>
+            <div class="level-info-subtitle" id="heroLevelDesc">Construyendo los primeros cimientos comerciales de alta calidad.</div>
+          </div>
+        </div>
+
+        <div class="level-progress-wrap">
+          <div class="level-progress-header">
+            <span style="color: var(--color-text-muted);">Progreso hacia el siguiente nivel</span>
+            <span style="font-family: var(--font-mono); font-weight: 700; color: var(--color-primary);" id="heroXpFraction">0 / 100 XP</span>
+          </div>
+          <div class="level-bar-bg">
+            <div class="level-bar-fill" id="heroProgressBar" style="width: 0%;"></div>
+          </div>
+          <div style="display: flex; justify-content: space-between; margin-top: 6px; font-size: 11px; font-family: var(--font-mono); color: var(--color-text-muted);">
+            <span>Nvl <span id="heroCurrentLvlNum">1</span></span>
+            <span id="heroPercentNum">0% completado</span>
+            <span>Nvl <span id="heroNextLvlNum">2</span></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 1. XP por buenos hábitos (Guía interactiva) -->
+      <div class="xp-rules-grid">
+        <div class="xp-rule-card">
+          <div class="xp-rule-title">Crear Lead</div>
+          <div class="xp-rule-pts">+5 XP</div>
+        </div>
+        <div class="xp-rule-card">
+          <div class="xp-rule-title">Completar su Ficha</div>
+          <div class="xp-rule-pts">+10 XP</div>
+        </div>
+        <div class="xp-rule-card">
+          <div class="xp-rule-title">Poner Próxima Acción</div>
+          <div class="xp-rule-pts">+5 XP</div>
+        </div>
+        <div class="xp-rule-card">
+          <div class="xp-rule-title">Mover un Lead</div>
+          <div class="xp-rule-pts">+10 XP</div>
+        </div>
+        <div class="xp-rule-card" style="border-color: rgba(211, 236, 0, 0.4);">
+          <div class="xp-rule-title" style="color: var(--color-primary);">Ganar un Cliente 🎉</div>
+          <div class="xp-rule-pts" style="background: var(--color-primary); color: var(--color-on-primary);">+50 XP</div>
+        </div>
+      </div>
+
+      <!-- Cuadrícula: Insignias de 3 niveles & Retos con Cofre -->
+      <div class="achievements-grid">
+        
+        <!-- Panel Izquierdo: Insignias de 3 niveles (Verde Lima con opacidad gradual) -->
+        <div class="panel-card">
+          <div class="panel-header">
+            <div class="panel-title">
+              <span>🎖️ Insignias Progresivas (3 Niveles)</span>
+            </div>
+            <span style="font-size: 11px; color: var(--color-primary); font-family: var(--font-mono);">Gradiente Lima</span>
+          </div>
+
+          <!-- Insignia: Organizado -->
+          <div class="badge-tiers-group">
+            <div class="badge-group-title">
+              <span>📋 Organizado</span>
+              <span id="badgeOrganizadoCount" style="font-size: 11px; font-family: var(--font-mono); color: var(--color-secondary);">0 leads con acción</span>
+            </div>
+            <div class="badge-group-desc">Leads con próxima acción y fecha definida.</div>
+            <div class="badge-tiers-row">
+              <div class="badge-tier-box tier-locked" id="badge-org-1">
+                <span class="tier-icon" style="font-size: 22px;">📅</span>
+                <span class="tier-name">Nivel 1</span>
+                <span class="tier-req">3 leads</span>
+              </div>
+              <div class="badge-tier-box tier-locked" id="badge-org-2">
+                <span class="tier-icon" style="font-size: 22px;">⚡</span>
+                <span class="tier-name">Nivel 2</span>
+                <span class="tier-req">7 leads</span>
+              </div>
+              <div class="badge-tier-box tier-locked" id="badge-org-3">
+                <span class="tier-icon" style="font-size: 22px;">👑</span>
+                <span class="tier-name">Nivel 3</span>
+                <span class="tier-req">12 leads</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Insignia: Constante -->
+          <div class="badge-tiers-group">
+            <div class="badge-group-title">
+              <span>🚀 Constante</span>
+              <span id="badgeConstanteCount" style="font-size: 11px; font-family: var(--font-mono); color: var(--color-secondary);">0 movimientos esta semana</span>
+            </div>
+            <div class="badge-group-desc">Movimientos de pipeline realizados durante esta semana.</div>
+            <div class="badge-tiers-row">
+              <div class="badge-tier-box tier-locked" id="badge-const-1">
+                <span class="tier-icon" style="font-size: 22px;">🌱</span>
+                <span class="tier-name">Nivel 1</span>
+                <span class="tier-req">3 avances</span>
+              </div>
+              <div class="badge-tier-box tier-locked" id="badge-const-2">
+                <span class="tier-icon" style="font-size: 22px;">🔥</span>
+                <span class="tier-name">Nivel 2</span>
+                <span class="tier-req">8 avances</span>
+              </div>
+              <div class="badge-tier-box tier-locked" id="badge-const-3">
+                <span class="tier-icon" style="font-size: 22px;">💎</span>
+                <span class="tier-name">Nivel 3</span>
+                <span class="tier-req">15 avances</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Botón Crear mi insignia -->
+          <div style="margin-top: 18px; text-align: center;">
+            <button class="btn btn-primary" onclick="crm.abrirModalCrearInsignia()" style="width: 100%; justify-content: center;">
+              <span>⭐ Crear mi insignia</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Panel Derecho: Reto Semanal y Reto Mensual con Cofre -->
+        <div class="panel-card">
+          <div class="panel-header">
+            <div class="panel-title">
+              <span>🎁 Retos con Cofre de Recompensas</span>
+            </div>
+            <span style="font-size: 11px; color: var(--color-secondary);">Sin estrés ni pérdidas</span>
+          </div>
+
+          <!-- Reto Semanal -->
+          <div class="quest-card">
+            <div class="quest-info">
+              <span class="quest-tag tag-semanal">Reto Semanal</span>
+              <div class="quest-title">Foco y Continuidad de Pipeline</div>
+              <div class="quest-desc">Realiza 4 movimientos de leads entre etapas esta semana.</div>
+              <div style="display: flex; justify-content: space-between; font-size: 11px; font-family: var(--font-mono); margin-bottom: 4px;">
+                <span>Progreso:</span>
+                <span id="questWeeklyProgText">0 / 4</span>
+              </div>
+              <div class="quest-progress-bar">
+                <div class="quest-progress-fill" id="questWeeklyBar" style="width: 0%;"></div>
+              </div>
+            </div>
+
+            <!-- Cofre Semanal -->
+            <div class="chest-container" onclick="crm.abrirCofre('semanal')">
+              <div class="chest-box" id="chestWeeklyBox">
+                <span id="chestWeeklyIcon">📦</span>
+              </div>
+              <div class="chest-label" id="chestWeeklyLabel">Bloqueado</div>
+            </div>
+          </div>
+
+          <!-- Reto Mensual -->
+          <div class="quest-card">
+            <div class="quest-info">
+              <span class="quest-tag tag-mensual">Reto Mensual</span>
+              <div class="quest-title">Victoria y Cierre Comercial</div>
+              <div class="quest-desc">Lleva al menos 1 lead a la columna "Ganado" o añade 3 leads cualificados.</div>
+              <div style="display: flex; justify-content: space-between; font-size: 11px; font-family: var(--font-mono); margin-bottom: 4px;">
+                <span>Progreso:</span>
+                <span id="questMonthlyProgText">0 / 1</span>
+              </div>
+              <div class="quest-progress-bar">
+                <div class="quest-progress-fill" id="questMonthlyBar" style="background: var(--color-primary); width: 0%;"></div>
+              </div>
+            </div>
+
+            <!-- Cofre Mensual -->
+            <div class="chest-container" onclick="crm.abrirCofre('mensual')">
+              <div class="chest-box" id="chestMonthlyBox">
+                <span id="chestMonthlyIcon">🎁</span>
+              </div>
+              <div class="chest-label" id="chestMonthlyLabel">Bloqueado</div>
+            </div>
+          </div>
+
+          <!-- Mis Insignias Personalizadas -->
+          <div style="margin-top: 18px;">
+            <div style="font-size: 13px; font-weight: 700; color: var(--color-text-secondary); margin-bottom: 8px;">
+              ⭐ Mis Insignias Personalizadas ("WinS")
+            </div>
+            <div id="customBadgesContainer" class="custom-badges-grid">
+              <!-- Insignias creadas por el usuario -->
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- 6. REGLAS ÉTICAS (SIN CASTIGOS, SIN PENALIZACIONES, SIN RANKINGS) -->
+      <div class="ethical-card">
+        <div style="display: flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 700; color: var(--color-secondary);">
+          <span>🧘</span>
+          <span>Principios Éticos de Gamificación Saludable</span>
+        </div>
+        <div class="ethical-grid">
+          <div class="ethical-item">
+            <div class="ethical-icon">🛡️</div>
+            <div>
+              <div class="ethical-text-title">Sin castigos por no entrar</div>
+              <div class="ethical-text-desc">Tu progreso, XP y nivel quedan intactos. Descansa sin culpa siempre que lo necesites.</div>
+            </div>
+          </div>
+          <div class="ethical-item">
+            <div class="ethical-icon">🌿</div>
+            <div>
+              <div class="ethical-text-title">Sin rachas que penalicen</div>
+              <div class="ethical-text-desc">No hay contadores de "streaks rotos". Fomentamos hábitos duraderos, no la ansiedad digital.</div>
+            </div>
+          </div>
+          <div class="ethical-item">
+            <div class="ethical-icon">🕊️</div>
+            <div>
+              <div class="ethical-text-title">Sin cuentas atrás estresantes</div>
+              <div class="ethical-text-desc">Los retos te orientan sin temporizadores hostiles. Avanzas con foco a tu ritmo natural.</div>
+            </div>
+          </div>
+          <div class="ethical-item">
+            <div class="ethical-icon">🔒</div>
+            <div>
+              <div class="ethical-text-title">Sin rankings públicos</div>
+              <div class="ethical-text-desc">Tu CRM es tu espacio privado de maestría. Compites únicamente con tu versión de ayer.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       PANTALLA 4: DATOS, COPIAS & IMPORTAR ANÁLISIS
+       ========================================================================== -->
+  <section class="screen-view" id="screen-datos">
+    <div class="full-page-screen">
+      <div class="panel-card" style="margin-bottom: 24px;">
+        <div class="panel-header">
+          <div class="panel-title">
+            <span>💾 Copias de Seguridad & Portabilidad</span>
+          </div>
+          <span style="font-size: 11px; color: var(--color-text-muted);">Tus datos son 100% tuyos</span>
+        </div>
+
+        <p style="font-size: 13px; color: var(--color-text-secondary); line-height: 1.5; margin-bottom: 16px;">
+          Descarga un archivo JSON con todos tus leads, puntuaciones de encaje, mapa de empatía, pesos, nivel y logros desbloqueados para restaurarlos en cualquier navegador.
+        </p>
+
+        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+          <!-- 4. Botón "Exportar copia" -->
+          <button class="btn btn-primary" onclick="crm.exportarCopiaJSON()">
+            <span>📥 Exportar copia (.json)</span>
+          </button>
+
+          <!-- 4. Botón "Importar copia" -->
+          <button class="btn btn-secondary" onclick="crm.dispararSelectorArchivo()">
+            <span>📤 Importar copia (.json)</span>
+          </button>
+          <input type="file" id="fileImportInput" accept=".json" style="display: none;" onchange="crm.importarCopiaArchivo(event)">
+
+          <!-- Descargar archivo standalone crm.html -->
+          <a class="btn btn-accent" href="/crm.html" download="crm.html">
+            <span>⚡ Descargar crm.html Standalone</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Importador de análisis de IA -->
+      <div class="panel-card">
+        <div class="panel-header">
+          <div class="panel-title">
+            <span>🤖 Asistente de Análisis de Leads con IA</span>
+          </div>
+          <button class="btn btn-accent btn-sm" onclick="crm.copiarPromptIA()">
+            <span>📋 Copiar Prompt para ChatGPT / Claude</span>
+          </button>
+        </div>
+
+        <p style="font-size: 12px; color: var(--color-text-secondary); margin-bottom: 12px;">
+          Copia este prompt y pégalo en cualquier modelo de lenguaje para obtener un análisis de compatibilidad instantáneo:
+        </p>
+
+        <div style="background: rgba(4, 21, 27, 0.85); border: 1px dashed var(--color-border-hover); padding: 12px; border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: 11px; color: var(--color-text-primary); line-height: 1.5; margin-bottom: 14px;">
+          "Analiza este cliente potencial: [DESCRIPCIÓN FICTICIA]. Devuélveme SOLO un JSON con: nombre, sector, zona, valor_estimado, notas y, para cada criterio de mi cliente ideal, un cumplimiento entre 0 y 1."
+        </div>
+
+        <button class="btn btn-secondary btn-sm" onclick="crm.abrirModalImportarAnalisis()">
+          <span>Abrir Panel de Pegado de JSON</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       MODAL 1: NUEVO / EDITAR LEAD
+       ========================================================================== -->
+  <div class="modal-backdrop" id="modalLead">
+    <div class="modal-window">
+      <div class="modal-header">
+        <div class="modal-title" id="leadModalTitle">Nuevo Lead Comercial</div>
+        <button class="modal-close" onclick="crm.cerrarModalLead()">&times;</button>
+      </div>
+
+      <form id="leadForm" onsubmit="crm.guardarLeadForm(event)">
+        <input type="hidden" id="leadId">
+
+        <div class="form-group">
+          <label class="form-label">Nombre de la Empresa o Lead *</label>
+          <input type="text" class="form-control" id="leadName" required placeholder="Ej: Quantum Retail Solutions">
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label">Persona de Contacto</label>
+            <input type="text" class="form-control" id="leadContact" placeholder="Ej: Elena Torres (Directora IT)">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Valor Estimado en Euros (€) *</label>
+            <input type="number" class="form-control" id="leadValue" required min="0" step="500" placeholder="50000">
+          </div>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label">Sector / Industria</label>
+            <input type="text" class="form-control" id="leadSector" placeholder="Ej: Ciberseguridad, Retail...">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Zona Geográfica</label>
+            <input type="text" class="form-control" id="leadZona" placeholder="Ej: Madrid, Barcelona, Remoto">
+          </div>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label">Etapa en el Pipeline</label>
+            <select class="form-control" id="leadStage">
+              <option value="nuevo">1. Nuevo</option>
+              <option value="contactado">2. Contactado</option>
+              <option value="reunion">3. Reunión</option>
+              <option value="propuesta">4. Propuesta</option>
+              <option value="ganado">5. Ganado</option>
+              <option value="perdido">6. Perdido</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Fecha Límite / Próxima</label>
+            <input type="date" class="form-control" id="leadDate">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Próxima Acción Concreta</label>
+          <input type="text" class="form-control" id="leadNextAction" placeholder="Ej: Enviar propuesta técnica ajustada">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Notas Comerciales</label>
+          <textarea class="form-control" id="leadNotes" placeholder="Detalles de necesidades, presupuesto, competidores..."></textarea>
+        </div>
+
+        <!-- Cumplimiento por criterio (0 a 1) -->
+        <div style="margin-top: 10px; border-top: 1px solid var(--color-border-subtle); padding-top: 10px;">
+          <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px;">
+            <label class="form-label" style="color: var(--color-primary);">
+              Cumplimiento por Criterio de Cliente Ideal (0.00 a 1.00)
+            </label>
+            <span id="leadFormFitCalculated" style="font-family: var(--font-mono); font-size: 13px; font-weight: 700; color: var(--color-primary);">
+              --% parecido con tu cliente ideal
+            </span>
+          </div>
+
+          <div id="leadCriteriaInputs" style="display: flex; flex-direction: column; gap: 8px;">
+            <!-- Sliders generados dinámicamente -->
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 14px; border-top: 1px solid var(--color-border-subtle); padding-top: 12px;">
+          <button type="button" class="btn btn-secondary" onclick="crm.cerrarModalLead()">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Guardar Lead</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL 2: CREAR MI INSIGNIA ("WinS" CON FORMA DE ESTRELLA)
+       ========================================================================== -->
+  <div class="modal-backdrop" id="modalCrearInsignia">
+    <div class="modal-window">
+      <div class="modal-header">
+        <div class="modal-title">⭐ Crear Mi Insignia Personalizada</div>
+        <button class="modal-close" onclick="crm.cerrarModalCrearInsignia()">&times;</button>
+      </div>
+
+      <form onsubmit="crm.guardarNuevaInsignia(event)">
+        <div class="form-group">
+          <label class="form-label">Nombre de la Insignia (por defecto "WinS")</label>
+          <input type="text" class="form-control" id="customBadgeName" value="WinS" required maxlength="25">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Condición Sencilla del Logro</label>
+          <input type="text" class="form-control" id="customBadgeCondition" placeholder="Ej: Llamada de seguimiento en menos de 2h o acuerdo estratégico" required>
+        </div>
+
+        <!-- Previsualización del icono de estrella auto-generado -->
+        <div style="margin: 16px 0; background: rgba(4, 21, 27, 0.7); border: 1px solid var(--color-border-hover); border-radius: var(--radius-md); padding: 16px; text-align: center;">
+          <div style="font-size: 11px; color: var(--color-text-muted); margin-bottom: 8px;">
+            Icono Generado Automáticamente con Forma de Estrella:
+          </div>
+          <div id="starIconPreviewWrap" style="display: inline-block;">
+            <!-- SVG de estrella -->
+          </div>
+          <div id="starBadgePreviewName" style="font-weight: 700; color: var(--color-primary); margin-top: 6px; font-size: 14px;">WinS</div>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 10px;">
+          <button type="button" class="btn btn-secondary" onclick="crm.cerrarModalCrearInsignia()">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Desbloquear Insignia (+15 XP)</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL 3: IMPORTAR ANÁLISIS DE IA
+       ========================================================================== -->
+  <div class="modal-backdrop" id="modalImportarAnalisis">
+    <div class="modal-window">
+      <div class="modal-header">
+        <div class="modal-title">🤖 Importar Análisis de Lead con IA</div>
+        <button class="modal-close" onclick="crm.cerrarModalImportarAnalisis()">&times;</button>
+      </div>
+
+      <p style="font-size: 12px; color: var(--color-text-muted); margin-bottom: 12px;">
+        Pega a continuación el JSON obtenido al pasar tu descripción de cliente a ChatGPT o Claude:
+      </p>
+
+      <div class="form-group">
+        <textarea class="form-control" id="analysisJsonInput" style="height: 120px; font-family: var(--font-mono); font-size: 11px;" placeholder="Pega el JSON aquí..."></textarea>
+      </div>
+
+      <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+        <button type="button" class="btn btn-secondary btn-sm" onclick="crm.cargarEjemploJSON()">
+          <span>Cargar JSON de Ejemplo</span>
+        </button>
+        <button type="button" class="btn btn-accent btn-sm" onclick="crm.previsualizarAnalisis()">
+          <span>Previsualizar Análisis</span>
+        </button>
+      </div>
+
+      <div id="analysisPreviewBox" style="display: none; background: rgba(14, 52, 66, 0.4); border: 1px solid var(--color-border-hover); border-radius: var(--radius-md); padding: 14px; margin-bottom: 12px;">
+        <div id="analysisPreviewContent" style="font-size: 12px; line-height: 1.5;"></div>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; gap: 10px;">
+        <button type="button" class="btn btn-secondary" onclick="crm.cerrarModalImportarAnalisis()">Cancelar</button>
+        <button type="button" class="btn btn-primary" id="btnConfirmImportAnalysis" disabled onclick="crm.confirmarImportarAnalisis()">
+          <span>Confirmar y Añadir a Tablero</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL 4: APERTURA DE COFRE DE RETOS
+       ========================================================================== -->
+  <div class="modal-backdrop" id="modalCofre">
+    <div class="modal-window" style="max-width: 440px;">
+      <div class="chest-modal-content">
+        <div class="chest-open-animation" id="chestModalIcon">🎉</div>
+        <div style="font-size: 20px; font-weight: 800; color: var(--color-primary); margin-bottom: 6px;" id="chestModalTitle">
+          ¡Cofre Desbloqueado!
+        </div>
+        <div style="font-size: 13px; color: var(--color-text-secondary); line-height: 1.5; margin-bottom: 16px;" id="chestModalDesc">
+          Has completado tu reto y fortalecido tus buenos hábitos comerciales.
+        </div>
+        <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(211, 236, 0, 0.15); border: 1px solid var(--color-primary); padding: 8px 16px; border-radius: var(--radius-pill); font-family: var(--font-mono); font-weight: 700; color: var(--color-primary); font-size: 15px; margin-bottom: 20px;" id="chestModalRewardPill">
+          +100 XP
+        </div>
+        <div>
+          <button class="btn btn-primary" onclick="crm.cerrarModalCofre()" style="width: 100%; justify-content: center;">
+            <span>¡Genial! Continuar</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast de Notificaciones Breves (REGLA 5) -->
+  <div class="toast-box" id="toast"></div>
+
+  <!-- ==========================================================================
+       JAVASCRIPT: TABLERO, SCORING, XP, RETOS, COFRES E INSIGNIAS
+       ========================================================================== -->
+  <script>
+    const crm = {
+      STORAGE_KEY: 'kinetic_teal_crm_v4_logros',
+      
+      // Control de notificaciones en el arranque inicial (REGLA 5)
+      isInitialLoad: true,
+
+      pantallaActual: 'tablero',
+
+      stages: ['nuevo', 'contactado', 'reunion', 'propuesta', 'ganado', 'perdido'],
+      stageLabels: {
+        nuevo: '1. Nuevo',
+        contactado: '2. Contactado',
+        reunion: '3. Reunión',
+        propuesta: '4. Propuesta',
+        ganado: '5. Ganado',
+        perdido: '6. Perdido'
+      },
+
+      // Niveles comerciales y umbrales de XP
+      niveles: [
+        { nivel: 1, titulo: 'Iniciador del Pipeline', xpMin: 0, xpMax: 100, desc: 'Construyendo los primeros cimientos comerciales.' },
+        { nivel: 2, titulo: 'Estratega B2B', xpMin: 101, xpMax: 250, desc: 'Cualificando con rigor y enfoque de valor.' },
+        { nivel: 3, titulo: 'Negociador de Alto Impacto', xpMin: 251, xpMax: 500, desc: 'Generando propuestas irresistibles.' },
+        { nivel: 4, titulo: 'Maestro del Cierre', xpMin: 501, xpMax: 850, desc: 'Dominio de acuerdos y relaciones sólidas.' },
+        { nivel: 5, titulo: 'Arquitecto de Ingresos', xpMin: 851, xpMax: 1300, desc: 'Liderando el flujo continuo de valor.' },
+        { nivel: 6, titulo: 'Leyenda Comercial', xpMin: 1301, xpMax: 99999, desc: 'Maestría total y hábitos impecables.' }
+      ],
+
+      // Criterios de evaluación con PESO de 1 a 5
+      criteriaDefinition: [
+        { id: 'sector', label: 'Sector & Industria', peso: 5 },
+        { id: 'tamano', label: 'Tamaño & Madurez', peso: 4 },
+        { id: 'zona', label: 'Zona Geográfica', peso: 3 },
+        { id: 'problema', label: 'Urgencia del Problema', peso: 5 },
+        { id: 'presupuesto', label: 'Presupuesto Adecuado', peso: 4 },
+        { id: 'canal', label: 'Canal de Venta Idóneo', peso: 3 },
+        { id: 'empatia', label: 'Alineación Mapa Empatía', peso: 4 }
+      ],
+
+      // Perfil de Cliente Ideal (ICP) y Empatía
+      icpConfig: {
+        sector: 'Tecnología B2B, Cloud & IA',
+        tamano: '50 a 500 empleados / >5M€ facturación',
+        zona: 'España, Portugal y Sur de Europa',
+        problema: 'Ineficiencia operativa y falta de integración segura en nube',
+        presupuesto: '40.000 € a 150.000 € anuales',
+        canal: 'Demo técnica consultiva y propuesta directa al CTO/CISO',
+        empathy: {
+          piensa: 'Teme quedarse rezagado frente a rivales que usan IA y le preocupan las brechas de seguridad o caídas de servidores.',
+          ve: 'Ve a empresas del sector anunciando automatizaciones y saturación de proveedores generalistas sin especialización.',
+          dice: 'Exige pruebas de concepto reales (PoC), pide referencias de otros CTOs y revisa rigurosamente el acuerdo de nivel de servicio.',
+          oye: 'Oye a la dirección financiera exigir reducción de costes y a sus ingenieros solicitar mejores herramientas modernas.'
+        }
+      },
+
+      // Sistema de Gamificación Ético
+      gamification: {
+        xp: 35,
+        movesThisWeek: 4,
+        completedFullProfiles: 2,
+        weeklyClaimed: false,
+        monthlyClaimed: false,
+        customBadges: [
+          {
+            id: 'badge-wins-default',
+            name: 'WinS',
+            condition: 'Celebrar el primer avance semanal con rigor ético',
+            date: '2026-11-05'
+          }
+        ]
+      },
+
+      // Interruptor para ordenar por encaje
+      sortByFit: true,
+
+      // 8 leads de ejemplo iniciales
+      leads: [
+        {
+          id: 'lead-1',
+          name: 'NexusCloud Systems S.L.',
+          contact: 'Helena Gómez (CTO)',
+          sector: 'Cloud & Kubernetes',
+          zona: 'Madrid, España',
+          value: 48500,
+          stage: 'propuesta',
+          nextAction: 'Enviar contrato marco revisado por legal',
+          date: '2026-11-10',
+          notes: 'Migración a clusters Kubernetes y LLM privada. Presupuesto aprobado.',
+          fulfillment: { sector: 1.0, tamano: 0.9, zona: 1.0, problema: 0.95, presupuesto: 0.9, canal: 0.85, empatia: 0.9 }
+        },
+        {
+          id: 'lead-2',
+          name: 'Quantum Retail Solutions',
+          contact: 'Carlos Aranda (VP Ops)',
+          sector: 'Retail Analytics',
+          zona: 'Barcelona, España',
+          value: 72000,
+          stage: 'reunion',
+          nextAction: 'Sesión de PoC con datos anonimizados',
+          date: '2026-11-08',
+          notes: 'Demo técnica completada con el equipo de infraestructura.',
+          fulfillment: { sector: 0.85, tamano: 0.8, zona: 1.0, problema: 0.85, presupuesto: 0.85, canal: 0.8, empatia: 0.85 }
+        },
+        {
+          id: 'lead-3',
+          name: 'Iberia CyberShield Group',
+          contact: 'Sofía Morales (CISO)',
+          sector: 'Ciberseguridad Enterprise',
+          zona: 'Valencia, España',
+          value: 115000,
+          stage: 'ganado',
+          nextAction: 'Kick-off técnico y onboarding con ingeniería',
+          date: '2026-11-06',
+          notes: 'Contrato anual Enterprise de detección de intrusiones firmado.',
+          fulfillment: { sector: 1.0, tamano: 1.0, zona: 1.0, problema: 1.0, presupuesto: 0.95, canal: 0.9, empatia: 1.0 }
+        },
+        {
+          id: 'lead-4',
+          name: 'DataPulse Analytics Europe',
+          contact: 'Marcos Villegas (Head of Data)',
+          sector: 'Big Data & ETL',
+          zona: 'Sevilla, España',
+          value: 34000,
+          stage: 'contactado',
+          nextAction: 'Llamada de cualificación de 15 min',
+          date: '2026-11-07',
+          notes: 'Formulario inbound recibido. Interesados en conector Snowflake.',
+          fulfillment: { sector: 0.8, tamano: 0.65, zona: 0.9, problema: 0.75, presupuesto: 0.7, canal: 0.75, empatia: 0.7 }
+        },
+        {
+          id: 'lead-5',
+          name: 'BioHealth AI Diagnóstica',
+          contact: 'Dra. Lucía Navarro (Directora Médica)',
+          sector: 'HealthTech & IA',
+          zona: 'Galicia, España',
+          value: 89000,
+          stage: 'propuesta',
+          nextAction: 'Presentar oferta económica final ante el comité',
+          date: '2026-11-12',
+          notes: 'Cumplimiento RGPD validado con departamento legal.',
+          fulfillment: { sector: 0.95, tamano: 0.9, zona: 1.0, problema: 0.95, presupuesto: 0.9, canal: 0.85, empatia: 0.9 }
+        },
+        {
+          id: 'lead-6',
+          name: 'LogistiQ Automation Logistics',
+          contact: 'Fernando Ramos (Dir. Supply Chain)',
+          sector: 'Logística & ERP',
+          zona: 'Bilbao, España',
+          value: 56000,
+          stage: 'reunion',
+          nextAction: 'Demostración técnica de API en vivo',
+          date: '2026-11-09',
+          notes: 'Interés en integración con ERP SAP.',
+          fulfillment: { sector: 0.75, tamano: 0.85, zona: 0.9, problema: 0.8, presupuesto: 0.8, canal: 0.75, empatia: 0.8 }
+        },
+        {
+          id: 'lead-7',
+          name: 'FinSecure Pay Technologies',
+          contact: 'Patricia De la Vega (Head of Payments)',
+          sector: 'Fintech & Fraude',
+          zona: 'Madrid, España',
+          value: 130000,
+          stage: 'ganado',
+          nextAction: 'Revisión mensual de métricas de prevención',
+          date: '2026-11-30',
+          notes: 'Módulo de prevención de fraude en tiempo real en producción.',
+          fulfillment: { sector: 0.95, tamano: 0.95, zona: 1.0, problema: 0.95, presupuesto: 0.95, canal: 0.9, empatia: 0.95 }
+        },
+        {
+          id: 'lead-8',
+          name: 'EcoSmart IoT Grid Systems',
+          contact: 'Javier Montero (Lead Engineer)',
+          sector: 'IoT & Telemetría',
+          zona: 'Canarias, España',
+          value: 28000,
+          stage: 'nuevo',
+          nextAction: 'Enviar caso de éxito y agendar primera llamada',
+          date: '2026-11-11',
+          notes: 'Contacto en feria tecnológica. Descargaron whitepaper.',
+          fulfillment: { sector: 0.65, tamano: 0.5, zona: 0.7, problema: 0.6, presupuesto: 0.55, canal: 0.6, empatia: 0.6 }
+        }
+      ],
+
+      draggedLeadId: null,
+      parsedAnalysisCache: null,
+
+      /**
+       * Inicialización de la aplicación
+       */
+      init() {
+        this.cargarDeNavegador();
+        this.renderizarSlidersPesos();
+        this.renderizarTablero();
+        this.actualizarGamificacionUI();
+        this.actualizarIconoEstrellaPreview();
+        
+        // Finalizar carga inicial: a partir de ahora sí se permiten toasts (REGLA 5)
+        setTimeout(() => {
+          this.isInitialLoad = false;
+        }, 800);
+      },
+
+      /**
+       * Navegación entre las 4 pantallas sin recargar la página
+       */
+      cambiarPantalla(pantallaId) {
+        this.pantallaActual = pantallaId;
+        
+        // Alternar botones
+        ['tablero', 'icp', 'logros', 'datos'].forEach(p => {
+          const btn = document.getElementById(`tabBtn-${p}`);
+          const screen = document.getElementById(`screen-${p}`);
+          if (btn) btn.classList.toggle('active', p === pantallaId);
+          if (screen) screen.classList.toggle('active', p === pantallaId);
+        });
+
+        if (pantallaId === 'logros') {
+          this.actualizarGamificacionUI();
+        } else if (pantallaId === 'tablero') {
+          this.renderizarTablero();
+        }
+      },
+
+      /**
+       * Cálculo del Parecido con el Cliente Ideal:
+       * Encaje = suma(peso * cumplimiento) / suma(pesos), en porcentaje.
+       * TEXTO OBLIGATORIO: "parecido con tu cliente ideal" (nunca probabilidad de compra).
+       */
+      calcularEncaje(lead) {
+        if (!lead || !lead.fulfillment) return 0;
+        let sumaPonderada = 0;
+        let sumaPesos = 0;
+
+        this.criteriaDefinition.forEach(crit => {
+          const peso = Number(crit.peso) || 1;
+          const cumplimiento = (lead.fulfillment[crit.id] !== undefined)
+            ? Number(lead.fulfillment[crit.id])
+            : 0.7; // valor neutro
+          sumaPonderada += (cumplimiento * peso);
+          sumaPesos += peso;
+        });
+
+        if (sumaPesos === 0) return 0;
+        return Math.round((sumaPonderada / sumaPesos) * 100);
+      },
+
+      /**
+       * SISTEMA DE XP POR BUENOS HÁBITOS:
+       * - Crear lead (+5)
+       * - Completar su ficha (+10)
+       * - Poner próxima acción (+5)
+       * - Mover un lead (+10)
+       * - Ganar un cliente (+50)
+       */
+      sumarXP(puntos, motivo) {
+        const nivelAnterior = this.obtenerNivel(this.gamification.xp).nivel;
+        this.gamification.xp += puntos;
+        const nuevoNivelObj = this.obtenerNivel(this.gamification.xp);
+        
+        this.guardarEnNavegador();
+        this.actualizarGamificacionUI();
+
+        // REGLA 5: Al abrir la app por primera vez no salta ningún aviso.
+        if (!this.isInitialLoad) {
+          if (nuevoNivelObj.nivel > nivelAnterior) {
+            this.mostrarToast(`🎉 ¡Subiste al Nivel ${nuevoNivelObj.nivel}: ${nuevoNivelObj.titulo}! (+${puntos} XP)`);
+          } else if (puntos >= 10) {
+            this.mostrarToast(`⚡ +${puntos} XP: ${motivo}`);
+          }
+        }
+      },
+
+      obtenerNivel(xp) {
+        for (let i = this.niveles.length - 1; i >= 0; i--) {
+          if (xp >= this.niveles[i].xpMin) {
+            return this.niveles[i];
+          }
+        }
+        return this.niveles[0];
+      },
+
+      obtenerSiguienteNivel(nivelActualNum) {
+        return this.niveles.find(n => n.nivel === nivelActualNum + 1) || this.niveles[this.niveles.length - 1];
+      },
+
+      /**
+       * Actualización de la Interfaz de Logros & Gamificación
+       */
+      actualizarGamificacionUI() {
+        const xp = this.gamification.xp;
+        const nivelObj = this.obtenerNivel(xp);
+        const sigNivelObj = this.obtenerSiguienteNivel(nivelObj.nivel);
+
+        // Barra superior
+        const navXp = document.getElementById('navXpText');
+        if (navXp) navXp.textContent = `${xp} XP`;
+        const navBadge = document.getElementById('navLevelBadge');
+        if (navBadge) navBadge.textContent = `Nvl ${nivelObj.nivel}`;
+        const subBarTitle = document.getElementById('subBarLevelTitle');
+        if (subBarTitle) subBarTitle.textContent = `Nivel ${nivelObj.nivel} • ${nivelObj.titulo}`;
+
+        // Pantalla de Logros: Hero Card
+        const heroBadge = document.getElementById('heroLevelBadge');
+        if (heroBadge) heroBadge.textContent = nivelObj.nivel;
+        const heroTitle = document.getElementById('heroLevelTitle');
+        if (heroTitle) heroTitle.textContent = nivelObj.titulo;
+        const heroDesc = document.getElementById('heroLevelDesc');
+        if (heroDesc) heroDesc.textContent = nivelObj.desc;
+
+        // Cálculo de la barra de nivel
+        let progresoPct = 100;
+        let fraccionTexto = `${xp} XP (Máximo alcanzado)`;
+
+        if (sigNivelObj.nivel > nivelObj.nivel) {
+          const xpEnNivel = xp - nivelObj.xpMin;
+          const rangoNivel = sigNivelObj.xpMin - nivelObj.xpMin;
+          progresoPct = Math.min(100, Math.max(0, Math.round((xpEnNivel / rangoNivel) * 100)));
+          fraccionTexto = `${xp} / ${sigNivelObj.xpMin} XP`;
+        }
+
+        const heroFraction = document.getElementById('heroXpFraction');
+        if (heroFraction) heroFraction.textContent = fraccionTexto;
+        const heroBar = document.getElementById('heroProgressBar');
+        if (heroBar) heroBar.style.width = `${progresoPct}%`;
+        const heroCurNum = document.getElementById('heroCurrentLvlNum');
+        if (heroCurNum) heroCurNum.textContent = nivelObj.nivel;
+        const heroNextNum = document.getElementById('heroNextLvlNum');
+        if (heroNextNum) heroNextNum.textContent = sigNivelObj.nivel;
+        const heroPct = document.getElementById('heroPercentNum');
+        if (heroPct) heroPct.textContent = `${progresoPct}% hacia siguiente nivel`;
+
+        // Insignia 1: "Organizado" (Leads con próxima acción)
+        const leadsConAccion = this.leads.filter(l => (l.nextAction || '').trim().length > 0).length;
+        const badgeOrgCount = document.getElementById('badgeOrganizadoCount');
+        if (badgeOrgCount) badgeOrgCount.textContent = `${leadsConAccion} leads con acción`;
+
+        this.actualizarInsigniaTier('badge-org-1', leadsConAccion >= 3, 1);
+        this.actualizarInsigniaTier('badge-org-2', leadsConAccion >= 7, 2);
+        this.actualizarInsigniaTier('badge-org-3', leadsConAccion >= 12, 3);
+
+        // Insignia 2: "Constante" (Movimientos esta semana)
+        const moves = this.gamification.movesThisWeek || 0;
+        const badgeConstCount = document.getElementById('badgeConstanteCount');
+        if (badgeConstCount) badgeConstCount.textContent = `${moves} movimientos esta semana`;
+
+        this.actualizarInsigniaTier('badge-const-1', moves >= 3, 1);
+        this.actualizarInsigniaTier('badge-const-2', moves >= 8, 2);
+        this.actualizarInsigniaTier('badge-const-3', moves >= 15, 3);
+
+        // Reto Semanal (4 movimientos)
+        const weeklyGoal = 4;
+        const weeklyDone = Math.min(moves, weeklyGoal);
+        const weeklyPct = Math.round((weeklyDone / weeklyGoal) * 100);
+        const questWText = document.getElementById('questWeeklyProgText');
+        if (questWText) questWText.textContent = `${weeklyDone} / ${weeklyGoal}`;
+        const questWBar = document.getElementById('questWeeklyBar');
+        if (questWBar) questWBar.style.width = `${weeklyPct}%`;
+
+        const chestWBox = document.getElementById('chestWeeklyBox');
+        const chestWIcon = document.getElementById('chestWeeklyIcon');
+        const chestWLabel = document.getElementById('chestWeeklyLabel');
+
+        if (this.gamification.weeklyClaimed) {
+          if (chestWBox) { chestWBox.className = 'chest-box claimed'; }
+          if (chestWIcon) chestWIcon.textContent = '✨';
+          if (chestWLabel) { chestWLabel.textContent = 'Reclamado'; chestWLabel.className = 'chest-label'; }
+        } else if (moves >= weeklyGoal) {
+          if (chestWBox) { chestWBox.className = 'chest-box ready'; }
+          if (chestWIcon) chestWIcon.textContent = '🎁';
+          if (chestWLabel) { chestWLabel.textContent = '¡Abrir (+100 XP)!'; chestWLabel.className = 'chest-label ready'; }
+        } else {
+          if (chestWBox) { chestWBox.className = 'chest-box'; }
+          if (chestWIcon) chestWIcon.textContent = '🔒';
+          if (chestWLabel) { chestWLabel.textContent = 'En curso'; chestWLabel.className = 'chest-label'; }
+        }
+
+        // Reto Mensual (1 cliente en Ganado o 3 leads con encaje > 80%)
+        const ganadoCount = this.leads.filter(l => l.stage === 'ganado').length;
+        const monthlyGoal = 1;
+        const monthlyDone = Math.min(ganadoCount, monthlyGoal);
+        const questMText = document.getElementById('questMonthlyProgText');
+        if (questMText) questMText.textContent = `${monthlyDone} / ${monthlyGoal} ganado`;
+        const questMBar = document.getElementById('questMonthlyBar');
+        if (questMBar) questMBar.style.width = `${(monthlyDone / monthlyGoal) * 100}%`;
+
+        const chestMBox = document.getElementById('chestMonthlyBox');
+        const chestMIcon = document.getElementById('chestMonthlyIcon');
+        const chestMLabel = document.getElementById('chestMonthlyLabel');
+
+        if (this.gamification.monthlyClaimed) {
+          if (chestMBox) { chestMBox.className = 'chest-box claimed'; }
+          if (chestMIcon) chestMIcon.textContent = '🏆';
+          if (chestMLabel) { chestMLabel.textContent = 'Reclamado'; chestMLabel.className = 'chest-label'; }
+        } else if (ganadoCount >= monthlyGoal) {
+          if (chestMBox) { chestMBox.className = 'chest-box ready'; }
+          if (chestMIcon) chestMIcon.textContent = '👑';
+          if (chestMLabel) { chestMLabel.textContent = '¡Abrir (+250 XP)!'; chestMLabel.className = 'chest-label ready'; }
+        } else {
+          if (chestMBox) { chestMBox.className = 'chest-box'; }
+          if (chestMIcon) chestMIcon.textContent = '🔒';
+          if (chestMLabel) { chestMLabel.textContent = 'En curso'; chestMLabel.className = 'chest-label'; }
+        }
+
+        // Renderizar Insignias Personalizadas del usuario
+        this.renderizarInsigniasPersonalizadas();
+      },
+
+      /**
+       * Actualiza un escalón de insignia aplicando las clases de opacidad gradual en verde lima
+       */
+      actualizarInsigniaTier(elementId, cumplido, tierNum) {
+        const el = document.getElementById(elementId);
+        if (!el) return;
+        el.classList.remove('tier-locked', 'tier-unlocked-1', 'tier-unlocked-2', 'tier-unlocked-3');
+        if (cumplido) {
+          el.classList.add(`tier-unlocked-${tierNum}`);
+        } else {
+          el.classList.add('tier-locked');
+        }
+      },
+
+      /**
+       * Apertura de cofre interactiva
+       */
+      abrirCofre(tipo) {
+        if (tipo === 'semanal') {
+          if (this.gamification.weeklyClaimed) {
+            this.mostrarToast('ℹ️ Este cofre semanal ya ha sido abierto.');
+            return;
+          }
+          if ((this.gamification.movesThisWeek || 0) < 4) {
+            this.mostrarToast('🔒 Completa 4 movimientos de leads para desbloquear este cofre.');
+            return;
+          }
+          this.gamification.weeklyClaimed = true;
+          this.sumarXP(100, 'Cofre Semanal Reclamado');
+          this.mostrarModalCofre('¡Cofre Semanal Desbloqueado!', 'Has demostrado un ritmo comercial continuo y estructurado esta semana.', '+100 XP', '🎁');
+        } else if (tipo === 'mensual') {
+          if (this.gamification.monthlyClaimed) {
+            this.mostrarToast('ℹ️ El gran cofre mensual ya ha sido abierto.');
+            return;
+          }
+          const ganadoCount = this.leads.filter(l => l.stage === 'ganado').length;
+          if (ganadoCount < 1) {
+            this.mostrarToast('🔒 Lleva al menos 1 lead a "Ganado" para abrir el Gran Cofre Mensual.');
+            return;
+          }
+          this.gamification.monthlyClaimed = true;
+          this.sumarXP(250, 'Gran Cofre Mensual Reclamado');
+          this.mostrarModalCofre('👑 ¡Gran Victoria Mensual!', '¡Enhorabuena! Has cerrado un cliente y coronado tu pipeline del mes con éxito rotundo.', '+250 XP', '🏆');
+        }
+      },
+
+      mostrarModalCofre(titulo, desc, recompensa, icono) {
+        document.getElementById('chestModalTitle').textContent = titulo;
+        document.getElementById('chestModalDesc').textContent = desc;
+        document.getElementById('chestModalRewardPill').textContent = recompensa;
+        document.getElementById('chestModalIcon').textContent = icono;
+        document.getElementById('modalCofre').classList.add('active');
+      },
+
+      cerrarModalCofre() {
+        document.getElementById('modalCofre').classList.remove('active');
+      },
+
+      /**
+       * Modal y Creación de Insignia Personalizada ("WinS" con icono de estrella auto-generado)
+       */
+      abrirModalCrearInsignia() {
+        document.getElementById('customBadgeName').value = 'WinS';
+        document.getElementById('customBadgeCondition').value = '';
+        this.actualizarIconoEstrellaPreview();
+        document.getElementById('modalCrearInsignia').classList.add('active');
+      },
+
+      cerrarModalCrearInsignia() {
+        document.getElementById('modalCrearInsignia').classList.remove('active');
+      },
+
+      generarEstrellaSVG(tamano = 36) {
+        // Estrella poligonal estilizada de 8 puntas de alta visibilidad con gradiente lima y cyan
+        return `
+          <svg width="${tamano}" height="${tamano}" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="starGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#e2fd0d" />
+                <stop offset="50%" stop-color="#d3ec00" />
+                <stop offset="100%" stop-color="#00e5ff" />
+              </linearGradient>
+              <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation="3" result="blur" />
+                <feComposite in="SourceGraphic" in2="blur" operator="over" />
+              </filter>
+            </defs>
+            <path d="M24 2L29.5 16.5L44 18L32.5 28.5L36 43L24 35.5L12 43L15.5 28.5L4 18L18.5 16.5L24 2Z" fill="url(#starGrad)" filter="url(#glow)" />
+            <circle cx="24" cy="24" r="5" fill="#051c24" />
+            <circle cx="24" cy="24" r="2.5" fill="#d3ec00" />
+          </svg>
+        `;
+      },
+
+      actualizarIconoEstrellaPreview() {
+        const wrap = document.getElementById('starIconPreviewWrap');
+        if (wrap) wrap.innerHTML = this.generarEstrellaSVG(48);
+        const nameInput = document.getElementById('customBadgeName');
+        const namePreview = document.getElementById('starBadgePreviewName');
+        if (nameInput && namePreview) {
+          nameInput.oninput = () => {
+            namePreview.textContent = nameInput.value || 'Mi Insignia';
+          };
+        }
+      },
+
+      guardarNuevaInsignia(e) {
+        e.preventDefault();
+        const name = (document.getElementById('customBadgeName').value || 'WinS').trim();
+        const condition = (document.getElementById('customBadgeCondition').value || 'Logro especial de ventas').trim();
+
+        const nueva = {
+          id: 'badge-' + Date.now(),
+          name,
+          condition,
+          date: new Date().toISOString().slice(0, 10)
+        };
+
+        if (!this.gamification.customBadges) this.gamification.customBadges = [];
+        this.gamification.customBadges.push(nueva);
+
+        this.sumarXP(15, `Insignia "${name}" creada`);
+        this.guardarEnNavegador();
+        this.actualizarGamificacionUI();
+        this.cerrarModalCrearInsignia();
+        this.mostrarToast(`⭐ ¡Insignia "${name}" creada con éxito! (+15 XP)`);
+      },
+
+      renderizarInsigniasPersonalizadas() {
+        const container = document.getElementById('customBadgesContainer');
+        if (!container) return;
+        const list = this.gamification.customBadges || [];
+
+        if (list.length === 0) {
+          container.innerHTML = `<div style="font-size: 11px; color: var(--color-text-muted); grid-column: 1 / -1;">No has creado insignias personalizadas aún. ¡Crea una con el botón "Crear mi insignia"!</div>`;
+          return;
+        }
+
+        container.innerHTML = list.map(b => `
+          <div class="custom-badge-card">
+            <div class="star-icon-wrap">
+              ${this.generarEstrellaSVG(30)}
+            </div>
+            <div style="flex: 1; overflow: hidden;">
+              <div style="font-size: 13px; font-weight: 700; color: var(--color-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                ${this.escapar(b.name)}
+              </div>
+              <div style="font-size: 10px; color: var(--color-text-muted); line-height: 1.3; margin-top: 2px;">
+                ${this.escapar(b.condition)}
+              </div>
+              <div style="font-size: 9px; font-family: var(--font-mono); color: var(--color-secondary); margin-top: 4px;">
+                ${b.date}
+              </div>
+            </div>
+          </div>
+        `).join('');
+      },
+
+      /**
+       * Renderiza los sliders de pesos (1 a 5) en la pantalla de ICP
+       */
+      renderizarSlidersPesos() {
+        const container = document.getElementById('screenWeightsSliders');
+        if (!container) return;
+
+        container.innerHTML = this.criteriaDefinition.map(crit => `
+          <div class="slider-row">
+            <div>
+              <strong style="color: var(--color-text-primary); font-size: 13px;">${crit.label}</strong>
+              <span style="font-size: 10px; color: var(--color-text-muted); display: block;">Peso estratégico</span>
+            </div>
+            <input 
+              type="range" 
+              class="slider-input" 
+              min="1" 
+              max="5" 
+              step="1" 
+              value="${crit.peso}" 
+              id="weight-screen-${crit.id}"
+              oninput="crm.actualizarPeso('${crit.id}', this.value)"
+            >
+            <div style="font-family: var(--font-mono); font-weight: 700; color: var(--color-primary); text-align: right;" id="weight-screen-val-${crit.id}">
+              P${crit.peso}
+            </div>
+          </div>
+        `).join('');
+      },
+
+      actualizarPeso(critId, nuevoValor) {
+        const v = Number(nuevoValor);
+        const crit = this.criteriaDefinition.find(c => c.id === critId);
+        if (crit) {
+          crit.peso = v;
+          const label = document.getElementById(`weight-screen-val-${critId}`);
+          if (label) label.textContent = `P${v}`;
+          
+          this.guardarEnNavegador();
+          this.renderizarTablero();
+        }
+      },
+
+      guardarConfigICP() {
+        this.icpConfig.sector = document.getElementById('icpSectorInput').value;
+        this.icpConfig.tamano = document.getElementById('icpTamanoInput').value;
+        this.icpConfig.zona = document.getElementById('icpZonaInput').value;
+        this.icpConfig.presupuesto = document.getElementById('icpPresupuestoInput').value;
+        this.icpConfig.problema = document.getElementById('icpProblemaInput').value;
+        this.icpConfig.canal = document.getElementById('icpCanalInput').value;
+
+        this.icpConfig.empathy.piensa = document.getElementById('empathyPiensaInput').value;
+        this.icpConfig.empathy.ve = document.getElementById('empathyVeInput').value;
+        this.icpConfig.empathy.dice = document.getElementById('empathyDiceInput').value;
+        this.icpConfig.empathy.oye = document.getElementById('empathyOyeInput').value;
+
+        this.guardarEnNavegador();
+        this.sumarXP(10, 'Perfil de Cliente Ideal (ICP) afinado');
+        this.mostrarToast('✅ Perfil de Cliente Ideal y Mapa de Empatía actualizados (+10 XP)');
+      },
+
+      /**
+       * Interruptor para ordenar el tablero por encaje
+       */
+      toggleSortByFit() {
+        this.sortByFit = !this.sortByFit;
+        const track = document.getElementById('switchTrack');
+        if (track) track.classList.toggle('active', this.sortByFit);
+        this.renderizarTablero();
+        this.mostrarToast(this.sortByFit ? '⚡ Tablero ordenado por mayor parecido' : '📋 Tablero en orden manual');
+      },
+
+      /**
+       * Renderiza el tablero Kanban
+       */
+      renderizarTablero() {
+        const track = document.getElementById('switchTrack');
+        if (track) track.classList.toggle('active', this.sortByFit);
+
+        // Agrupar leads por etapa
+        const leadsPorEtapa = {};
+        this.stages.forEach(s => { leadsPorEtapa[s] = []; });
+
+        this.leads.forEach(lead => {
+          if (leadsPorEtapa[lead.stage]) {
+            leadsPorEtapa[lead.stage].push(lead);
+          } else {
+            leadsPorEtapa['nuevo'].push(lead);
+          }
+        });
+
+        // Ordenar cada columna si el interruptor está activo
+        if (this.sortByFit) {
+          this.stages.forEach(s => {
+            leadsPorEtapa[s].sort((a, b) => this.calcularEncaje(b) - this.calcularEncaje(a));
+          });
+        }
+
+        // Totales globales
+        let totalValorGlobal = 0;
+        let totalEncajePonderado = 0;
+        let leadsConEncaje = 0;
+
+        this.stages.forEach(stageKey => {
+          const colLeads = leadsPorEtapa[stageKey];
+          const countEl = document.getElementById(`count-${stageKey}`);
+          const sumEl = document.getElementById(`sum-${stageKey}`);
+          const dropzone = document.getElementById(`drop-${stageKey}`);
+
+          let sumaValorEtapa = 0;
+          colLeads.forEach(l => {
+            sumaValorEtapa += (Number(l.value) || 0);
+            totalValorGlobal += (Number(l.value) || 0);
+            totalEncajePonderado += this.calcularEncaje(l);
+            leadsConEncaje++;
+          });
+
+          if (countEl) countEl.textContent = colLeads.length;
+          if (sumEl) sumEl.textContent = this.formatearEuros(sumaValorEtapa);
+
+          // Renderizar tarjetas
+          if (dropzone) {
+            dropzone.innerHTML = colLeads.map(lead => this.crearHtmlTarjetaLead(lead)).join('');
+          }
+        });
+
+        const globalVal = document.getElementById('globalTotalValue');
+        if (globalVal) globalVal.textContent = this.formatearEuros(totalValorGlobal);
+        const globalCnt = document.getElementById('globalTotalCount');
+        if (globalCnt) globalCnt.textContent = this.leads.length;
+        const globalAvg = document.getElementById('globalAvgFit');
+        if (globalAvg) {
+          const media = leadsConEncaje > 0 ? Math.round(totalEncajePonderado / leadsConEncaje) : 0;
+          globalAvg.textContent = `${media}%`;
+        }
+      },
+
+      /**
+       * HTML de tarjeta de lead
+       */
+      crearHtmlTarjetaLead(lead) {
+        const encaje = this.calcularEncaje(lead);
+        let badgeClass = 'badge-fit-mid';
+        if (encaje >= 85) badgeClass = 'badge-fit-high';
+        else if (encaje < 60) badgeClass = 'badge-fit-low';
+
+        const stageOptions = this.stages.map(s => `
+          <option value="${s}" ${lead.stage === s ? 'selected' : ''}>${this.stageLabels[s]}</option>
+        `).join('');
+
+        return `
+          <div 
+            class="lead-card" 
+            id="card-${lead.id}" 
+            draggable="true" 
+            ondragstart="crm.onDragStart(event, '${lead.id}')"
+            ondragend="crm.onDragEnd(event)"
+          >
+            <div class="card-top">
+              <div>
+                <div class="lead-name">${this.escapar(lead.name)}</div>
+                <div class="lead-contact">${this.escapar(lead.contact || 'Sin contacto')} ${lead.sector ? '• ' + this.escapar(lead.sector) : ''}</div>
+              </div>
+              <div style="display: flex; gap: 2px;">
+                <button class="btn-icon" title="Editar ficha" onclick="crm.abrirModalEditar('${lead.id}')">✏️</button>
+                <button class="btn-icon" title="Eliminar lead" onclick="crm.eliminarLead('${lead.id}')">🗑️</button>
+              </div>
+            </div>
+
+            <div class="card-val-row">
+              <span style="font-size: 11px; color: var(--color-text-muted);">Valor previsto:</span>
+              <span class="lead-value">${this.formatearEuros(lead.value)}</span>
+            </div>
+
+            <!-- 5. Parecido con el cliente ideal (NUNCA probabilidad de compra) -->
+            <div class="card-fit-badge ${badgeClass}">
+              <span>⚡ ${encaje}% parecido con tu cliente ideal</span>
+            </div>
+
+            ${lead.nextAction ? `
+              <div class="lead-next-action">
+                <div><strong>Próxima acción:</strong> ${this.escapar(lead.nextAction)}</div>
+                ${lead.date ? `<div class="lead-date">📅 ${this.escapar(lead.date)}</div>` : ''}
+              </div>
+            ` : ''}
+
+            <!-- Mover a... para móvil y accesibilidad -->
+            <div class="card-actions-row">
+              <span style="font-size: 10px; color: var(--color-text-muted);">Mover:</span>
+              <select class="stage-select" onchange="crm.moverLead('${lead.id}', this.value)">
+                ${stageOptions}
+              </select>
+            </div>
+          </div>
+        `;
+      },
+
+      /**
+       * Arrastrar y Soltar (Drag & Drop nativo)
+       */
+      onDragStart(e, leadId) {
+        this.draggedLeadId = leadId;
+        e.dataTransfer.setData('text/plain', leadId);
+        e.dataTransfer.effectAllowed = 'move';
+        const card = document.getElementById(`card-${leadId}`);
+        if (card) setTimeout(() => card.classList.add('dragging'), 0);
+      },
+
+      onDragEnd(e) {
+        if (this.draggedLeadId) {
+          const card = document.getElementById(`card-${this.draggedLeadId}`);
+          if (card) card.classList.remove('dragging');
+        }
+        document.querySelectorAll('.col-cards-dropzone').forEach(dz => dz.classList.remove('drag-over'));
+      },
+
+      onDragOver(e) {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'move';
+        const dropzone = e.currentTarget;
+        if (!dropzone.classList.contains('drag-over')) {
+          dropzone.classList.add('drag-over');
+        }
+      },
+
+      onDragLeave(e) {
+        e.currentTarget.classList.remove('drag-over');
+      },
+
+      onDrop(e, targetStage) {
+        e.preventDefault();
+        e.currentTarget.classList.remove('drag-over');
+        const leadId = e.dataTransfer.getData('text/plain') || this.draggedLeadId;
+        if (leadId) {
+          this.moverLead(leadId, targetStage);
+        }
+      },
+
+      /**
+       * Mueve un lead a otra etapa y suma XP por buen hábito comercial
+       */
+      moverLead(leadId, targetStage) {
+        const lead = this.leads.find(l => l.id === leadId);
+        if (!lead || lead.stage === targetStage) return;
+
+        const etapaAnterior = lead.stage;
+        lead.stage = targetStage;
+        this.gamification.movesThisWeek = (this.gamification.movesThisWeek || 0) + 1;
+
+        // XP por buen hábito:
+        // Mover un lead (+10 XP)
+        let xpGanado = 10;
+        let motivo = `Lead avanzado a "${this.stageLabels[targetStage]}"`;
+
+        // Ganar un cliente (+50 XP)
+        if (targetStage === 'ganado' && etapaAnterior !== 'ganado') {
+          xpGanado += 50;
+          motivo = `🎉 ¡CLIENTE GANADO!: "${lead.name}"`;
+        }
+
+        this.sumarXP(xpGanado, motivo);
+        this.guardarEnNavegador();
+        this.renderizarTablero();
+        this.actualizarGamificacionUI();
+      },
+
+      /**
+       * Modal de Nuevo Lead / Edición
+       */
+      abrirModalNuevoLead() {
+        document.getElementById('leadModalTitle').textContent = 'Nuevo Lead Comercial';
+        document.getElementById('leadForm').reset();
+        document.getElementById('leadId').value = '';
+        document.getElementById('leadValue').value = 45000;
+        document.getElementById('leadStage').value = 'nuevo';
+
+        const d = new Date();
+        d.setDate(d.getDate() + 3);
+        document.getElementById('leadDate').value = d.toISOString().slice(0, 10);
+
+        this.renderizarSlidersCumplimiento({});
+        document.getElementById('modalLead').classList.add('active');
+      },
+
+      abrirModalEditar(id) {
+        const lead = this.leads.find(l => l.id === id);
+        if (!lead) return;
+
+        document.getElementById('leadModalTitle').textContent = 'Editar Ficha del Lead';
+        document.getElementById('leadId').value = lead.id;
+        document.getElementById('leadName').value = lead.name;
+        document.getElementById('leadContact').value = lead.contact || '';
+        document.getElementById('leadSector').value = lead.sector || '';
+        document.getElementById('leadZona').value = lead.zona || '';
+        document.getElementById('leadValue').value = lead.value;
+        document.getElementById('leadStage').value = lead.stage;
+        document.getElementById('leadNextAction').value = lead.nextAction || '';
+        document.getElementById('leadDate').value = lead.date || '';
+        document.getElementById('leadNotes').value = lead.notes || '';
+
+        this.renderizarSlidersCumplimiento(lead.fulfillment || {});
+        document.getElementById('modalLead').classList.add('active');
+      },
+
+      cerrarModalLead() {
+        document.getElementById('modalLead').classList.remove('active');
+      },
+
+      renderizarSlidersCumplimiento(fulfillmentObj) {
+        const container = document.getElementById('leadCriteriaInputs');
+        container.innerHTML = this.criteriaDefinition.map(crit => {
+          const val = (fulfillmentObj && fulfillmentObj[crit.id] !== undefined)
+            ? Number(fulfillmentObj[crit.id])
+            : 0.8;
+
+          return `
+            <div class="slider-row">
+              <div>
+                <strong style="color: var(--color-text-primary); font-size: 12px;">${crit.label}</strong>
+                <span style="font-size: 10px; color: var(--color-text-muted); display: block;">Peso: P${crit.peso}</span>
+              </div>
+              <input 
+                type="range" 
+                class="slider-input" 
+                min="0" 
+                max="1" 
+                step="0.05" 
+                value="${val}" 
+                id="cump-${crit.id}"
+                oninput="crm.recalcularPreviewFormulario()"
+              >
+              <div style="font-family: var(--font-mono); font-weight: 700; color: var(--color-secondary); text-align: right;" id="cump-val-${crit.id}">
+                ${(val * 100).toFixed(0)}%
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        this.recalcularPreviewFormulario();
+      },
+
+      recalcularPreviewFormulario() {
+        const dummyFulfillment = {};
+        this.criteriaDefinition.forEach(crit => {
+          const el = document.getElementById(`cump-${crit.id}`);
+          if (el) {
+            const val = Number(el.value);
+            dummyFulfillment[crit.id] = val;
+            const labelEl = document.getElementById(`cump-val-${crit.id}`);
+            if (labelEl) labelEl.textContent = `${(val * 100).toFixed(0)}%`;
+          }
+        });
+
+        const encaje = this.calcularEncaje({ fulfillment: dummyFulfillment });
+        document.getElementById('leadFormFitCalculated').textContent = `${encaje}% parecido con tu cliente ideal`;
+      },
+
+      /**
+       * Guarda el lead y aplica las reglas de XP:
+       * - Crear lead (+5 XP)
+       * - Completar ficha (+10 XP)
+       * - Poner próxima acción (+5 XP)
+       */
+      guardarLeadForm(e) {
+        e.preventDefault();
+        const id = document.getElementById('leadId').value;
+        const name = document.getElementById('leadName').value.trim();
+        const contact = document.getElementById('leadContact').value.trim();
+        const sector = document.getElementById('leadSector').value.trim();
+        const zona = document.getElementById('leadZona').value.trim();
+        const value = Number(document.getElementById('leadValue').value) || 0;
+        const stage = document.getElementById('leadStage').value;
+        const nextAction = document.getElementById('leadNextAction').value.trim();
+        const date = document.getElementById('leadDate').value;
+        const notes = document.getElementById('leadNotes').value.trim();
+
+        const fulfillment = {};
+        this.criteriaDefinition.forEach(crit => {
+          const el = document.getElementById(`cump-${crit.id}`);
+          fulfillment[crit.id] = el ? Number(el.value) : 0.7;
+        });
+
+        let xpTotalGanado = 0;
+        const esFichaCompleta = Boolean(name && contact && sector && zona && value > 0 && notes);
+        const tieneProximaAccion = Boolean(nextAction);
+
+        if (id) {
+          // Edición
+          const index = this.leads.findIndex(l => l.id === id);
+          if (index !== -1) {
+            const leadPrev = this.leads[index];
+            if (!leadPrev.nextAction && tieneProximaAccion) {
+              xpTotalGanado += 5; // Poner próxima acción (+5)
+            }
+            if (esFichaCompleta) {
+              xpTotalGanado += 10; // Completar ficha (+10)
+            }
+
+            this.leads[index] = {
+              ...leadPrev,
+              name, contact, sector, zona, value, stage, nextAction, date, notes, fulfillment
+            };
+            this.mostrarToast(`✅ Lead "${name}" actualizado`);
+          }
+        } else {
+          // Crear Lead (+5 XP)
+          xpTotalGanado += 5;
+          if (tieneProximaAccion) xpTotalGanado += 5;
+          if (esFichaCompleta) xpTotalGanado += 10;
+
+          const nuevo = {
+            id: 'lead-' + Date.now(),
+            name, contact, sector, zona, value, stage, nextAction, date, notes, fulfillment
+          };
+          this.leads.unshift(nuevo);
+        }
+
+        if (xpTotalGanado > 0) {
+          this.sumarXP(xpTotalGanado, id ? 'Ficha actualizada con acción' : 'Nuevo lead registrado');
+        }
+
+        this.guardarEnNavegador();
+        this.renderizarTablero();
+        this.cerrarModalLead();
+      },
+
+      eliminarLead(id) {
+        const lead = this.leads.find(l => l.id === id);
+        if (!lead) return;
+        if (confirm(`¿Eliminar permanentemente a "${lead.name}"?`)) {
+          this.leads = this.leads.filter(l => l.id !== id);
+          this.guardarEnNavegador();
+          this.renderizarTablero();
+          this.mostrarToast(`🗑️ Lead eliminado`);
+        }
+      },
+
+      /**
+       * Importador de análisis de IA con JSON
+       */
+      abrirModalImportarAnalisis() {
+        document.getElementById('analysisJsonInput').value = '';
+        document.getElementById('analysisPreviewBox').style.display = 'none';
+        document.getElementById('btnConfirmImportAnalysis').disabled = true;
+        this.parsedAnalysisCache = null;
+        document.getElementById('modalImportarAnalisis').classList.add('active');
+      },
+
+      cerrarModalImportarAnalisis() {
+        document.getElementById('modalImportarAnalisis').classList.remove('active');
+      },
+
+      cargarEjemploJSON() {
+        const jsonEjemplo = {
+          nombre: "Apex CyberDefenders Ibérica",
+          contacto: "Alfonso Prieto (Director TI)",
+          sector: "Ciberseguridad Enterprise",
+          zona: "Madrid, España",
+          valor_estimado: 64000,
+          etapa: "reunion",
+          proxima_accion: "Revisar arquitectura de red y conector SIEM",
+          fecha: "2026-11-15",
+          notas: "Empresa de 250 empleados con urgencia alta por auditoría de seguridad bancaria.",
+          cumplimiento: {
+            sector: 0.95,
+            tamano: 0.85,
+            zona: 1.0,
+            problema: 0.95,
+            presupuesto: 0.9,
+            canal: 0.8,
+            empatia: 0.9
+          }
+        };
+        document.getElementById('analysisJsonInput').value = JSON.stringify(jsonEjemplo, null, 2);
+        this.previsualizarAnalisis();
+      },
+
+      previsualizarAnalisis() {
+        const txt = document.getElementById('analysisJsonInput').value.trim();
+        const previewBox = document.getElementById('analysisPreviewBox');
+        const previewContent = document.getElementById('analysisPreviewContent');
+        const confirmBtn = document.getElementById('btnConfirmImportAnalysis');
+
+        try {
+          const parsed = JSON.parse(txt);
+          if (!parsed.nombre) throw new Error("Falta el campo 'nombre'");
+
+          const dummyLead = { fulfillment: parsed.cumplimiento || {} };
+          const encaje = this.calcularEncaje(dummyLead);
+
+          this.parsedAnalysisCache = {
+            name: parsed.nombre,
+            contact: parsed.contacto || 'Contacto Principal',
+            sector: parsed.sector || 'Tecnología B2B',
+            zona: parsed.zona || 'España',
+            value: Number(parsed.valor_estimado) || 50000,
+            stage: parsed.etapa || 'reunion',
+            nextAction: parsed.proxima_accion || 'Llamada de seguimiento',
+            date: parsed.fecha || new Date().toISOString().slice(0, 10),
+            notes: parsed.notas || '',
+            fulfillment: parsed.cumplimiento || {}
+          };
+
+          previewContent.innerHTML = `
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <div><strong>Lead:</strong> ${this.escapar(this.parsedAnalysisCache.name)} (${this.escapar(this.parsedAnalysisCache.contact)})</div>
+              <span class="card-fit-badge badge-fit-high">⚡ ${encaje}% parecido con tu cliente ideal</span>
+            </div>
+            <div><strong>Valor:</strong> ${this.formatearEuros(this.parsedAnalysisCache.value)} | <strong>Etapa:</strong> ${this.stageLabels[this.parsedAnalysisCache.stage] || this.parsedAnalysisCache.stage}</div>
+            <div style="color: var(--color-text-muted); margin-top: 4px;"><strong>Próxima Acción:</strong> ${this.escapar(this.parsedAnalysisCache.nextAction)}</div>
+          `;
+          previewBox.style.display = 'block';
+          confirmBtn.disabled = false;
+        } catch (err) {
+          previewContent.innerHTML = `<span style="color: #ff8080;">JSON incompleto: ${this.escapar(err.message)}</span>`;
+          previewBox.style.display = 'block';
+          confirmBtn.disabled = true;
+          this.parsedAnalysisCache = null;
+        }
+      },
+
+      confirmarImportarAnalisis() {
+        if (!this.parsedAnalysisCache) return;
+
+        const nuevoLead = {
+          id: 'lead-' + Date.now(),
+          ...this.parsedAnalysisCache
+        };
+
+        this.leads.unshift(nuevoLead);
+        this.sumarXP(15, `Lead "${nuevoLead.name}" analizado e importado (+15 XP)`);
+        this.guardarEnNavegador();
+        this.renderizarTablero();
+        this.cerrarModalImportarAnalisis();
+
+        const encaje = this.calcularEncaje(nuevoLead);
+        this.mostrarToast(`✅ Lead "${nuevoLead.name}" importado (${encaje}% parecido con tu cliente ideal)`);
+      },
+
+      copiarPromptIA() {
+        const promptTxt = `"Analiza este cliente potencial: [DESCRIPCIÓN FICTICIA]. Devuélveme SOLO un JSON con: nombre, sector, zona, valor_estimado, notas y, para cada criterio de mi cliente ideal, un cumplimiento entre 0 y 1."`;
+        navigator.clipboard.writeText(promptTxt).then(() => {
+          this.mostrarToast('📋 Prompt de IA copiado al portapapeles');
+        }).catch(() => {
+          this.mostrarToast('ℹ️ Selecciona y copia el texto del prompt');
+        });
+      },
+
+      /**
+       * Persistencia en el Navegador con localStorage y try/catch (REQUISITO 3)
+       */
+      guardarEnNavegador() {
+        try {
+          const payload = {
+            leads: this.leads,
+            criteria: this.criteriaDefinition,
+            icpConfig: this.icpConfig,
+            sortByFit: this.sortByFit,
+            gamification: this.gamification,
+            timestamp: new Date().toISOString()
+          };
+          localStorage.setItem(this.STORAGE_KEY, JSON.stringify(payload));
+        } catch (e) {
+          console.error("Error guardando datos en localStorage:", e);
+        }
+      },
+
+      cargarDeNavegador() {
+        try {
+          const raw = localStorage.getItem(this.STORAGE_KEY);
+          if (raw) {
+            const data = JSON.parse(raw);
+            if (Array.isArray(data.leads) && data.leads.length > 0) {
+              this.leads = data.leads;
+            }
+            if (Array.isArray(data.criteria) && data.criteria.length > 0) {
+              this.criteriaDefinition = data.criteria;
+            }
+            if (data.icpConfig) {
+              this.icpConfig = { ...this.icpConfig, ...data.icpConfig };
+            }
+            if (typeof data.sortByFit === 'boolean') {
+              this.sortByFit = data.sortByFit;
+            }
+            if (data.gamification) {
+              this.gamification = { ...this.gamification, ...data.gamification };
+            }
+          }
+        } catch (e) {
+          console.warn("No se pudo leer localStorage o estaba vacío, cargando datos iniciales.", e);
+        }
+      },
+
+      /**
+       * Exportar Copia en JSON
+       */
+      exportarCopiaJSON() {
+        try {
+          const payload = {
+            version: '4.0.0',
+            exportedAt: new Date().toISOString(),
+            leads: this.leads,
+            criteria: this.criteriaDefinition,
+            icpConfig: this.icpConfig,
+            gamification: this.gamification
+          };
+          const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(payload, null, 2));
+          const dlAnchor = document.createElement('a');
+          dlAnchor.setAttribute("href", dataStr);
+          dlAnchor.setAttribute("download", `crm_backup_${new Date().toISOString().slice(0, 10)}.json`);
+          document.body.appendChild(dlAnchor);
+          dlAnchor.click();
+          dlAnchor.remove();
+          this.sumarXP(10, 'Copia de seguridad exportada');
+          this.mostrarToast('📥 Copia de seguridad exportada con éxito (+10 XP)');
+        } catch (e) {
+          this.mostrarToast('❌ Error exportando la copia');
+        }
+      },
+
+      dispararSelectorArchivo() {
+        document.getElementById('fileImportInput').click();
+      },
+
+      importarCopiaArchivo(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          try {
+            const data = JSON.parse(e.target.result);
+            if (Array.isArray(data.leads)) {
+              this.leads = data.leads;
+            }
+            if (Array.isArray(data.criteria)) {
+              this.criteriaDefinition = data.criteria;
+            }
+            if (data.icpConfig) {
+              this.icpConfig = data.icpConfig;
+            }
+            if (data.gamification) {
+              this.gamification = data.gamification;
+            }
+
+            this.guardarEnNavegador();
+            this.renderizarSlidersPesos();
+            this.renderizarTablero();
+            this.actualizarGamificacionUI();
+            this.mostrarToast('✅ Copia de seguridad importada correctamente');
+          } catch (err) {
+            this.mostrarToast('❌ Archivo de copia corrupto o formato no válido');
+          }
+        };
+        reader.readAsText(file);
+      },
+
+      /**
+       * Utilidades de Interfaz
+       */
+      mostrarToast(msg) {
+        if (this.isInitialLoad) return; // REGLA 5: Al abrir la app no salta ningún aviso
+        const t = document.getElementById('toast');
+        if (!t) return;
+        t.textContent = msg;
+        t.style.display = 'flex';
+        clearTimeout(this.toastTimer);
+        this.toastTimer = setTimeout(() => {
+          t.style.display = 'none';
+        }, 3200);
+      },
+
+      formatearEuros(n) {
+        return new Intl.NumberFormat('es-ES', {
+          style: 'currency',
+          currency: 'EUR',
+          maximumFractionDigits: 0
+        }).format(n || 0);
+      },
+
+      escapar(s) {
+        return (s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+      }
+    };
+
+    // Arranque
+    document.addEventListener('DOMContentLoaded', () => crm.init());
+  </script>
+</body>
+</html>

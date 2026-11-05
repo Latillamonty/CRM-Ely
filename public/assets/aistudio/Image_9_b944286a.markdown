@@ -1,0 +1,233 @@
+---
+name: Kinetic Teal
+colors:
+  surface: '#00161e'
+  surface-dim: '#00161e'
+  surface-bright: '#273c45'
+  surface-container-lowest: '#001017'
+  surface-container-low: '#071e26'
+  surface-container: '#0c222a'
+  surface-container-high: '#172d35'
+  surface-container-highest: '#223840'
+  on-surface: '#cfe6f1'
+  on-surface-variant: '#c7c9ac'
+  inverse-surface: '#cfe6f1'
+  inverse-on-surface: '#1e333c'
+  outline: '#909379'
+  outline-variant: '#464933'
+  surface-tint: '#bcd200'
+  primary: '#fcffd6'
+  on-primary: '#2d3400'
+  primary-container: '#d3ec00'
+  on-primary-container: '#5d6800'
+  inverse-primary: '#596400'
+  secondary: '#bdf4ff'
+  on-secondary: '#00363d'
+  secondary-container: '#00e3fd'
+  on-secondary-container: '#00616d'
+  tertiary: '#f8fcff'
+  on-tertiary: '#003545'
+  tertiary-container: '#b8e6fb'
+  on-tertiary-container: '#3b687a'
+  error: '#ffb4ab'
+  on-error: '#690005'
+  error-container: '#93000a'
+  on-error-container: '#ffdad6'
+  primary-fixed: '#d6ef0b'
+  primary-fixed-dim: '#bcd200'
+  on-primary-fixed: '#191e00'
+  on-primary-fixed-variant: '#424b00'
+  secondary-fixed: '#9cf0ff'
+  secondary-fixed-dim: '#00daf3'
+  on-secondary-fixed: '#001f24'
+  on-secondary-fixed-variant: '#004f58'
+  tertiary-fixed: '#bbe9fe'
+  tertiary-fixed-dim: '#a0cde1'
+  on-tertiary-fixed: '#001f29'
+  on-tertiary-fixed-variant: '#1c4c5d'
+  background: '#00161e'
+  on-background: '#cfe6f1'
+  surface-variant: '#223840'
+typography:
+  display-hero:
+    fontFamily: Outfit
+    fontSize: 56px
+    fontWeight: '700'
+    lineHeight: 64px
+    letterSpacing: -0.03em
+  display-hero-mobile:
+    fontFamily: Outfit
+    fontSize: 38px
+    fontWeight: '700'
+    lineHeight: 44px
+    letterSpacing: -0.02em
+  headline-lg:
+    fontFamily: Outfit
+    fontSize: 36px
+    fontWeight: '600'
+    lineHeight: 44px
+    letterSpacing: -0.02em
+  headline-lg-mobile:
+    fontFamily: Outfit
+    fontSize: 28px
+    fontWeight: '600'
+    lineHeight: 36px
+    letterSpacing: -0.015em
+  headline-md:
+    fontFamily: Outfit
+    fontSize: 24px
+    fontWeight: '600'
+    lineHeight: 32px
+    letterSpacing: -0.01em
+  headline-sm:
+    fontFamily: Outfit
+    fontSize: 20px
+    fontWeight: '500'
+    lineHeight: 28px
+    letterSpacing: 0em
+  title-md:
+    fontFamily: Outfit
+    fontSize: 16px
+    fontWeight: '600'
+    lineHeight: 24px
+    letterSpacing: 0em
+  body-lg:
+    fontFamily: Outfit
+    fontSize: 16px
+    fontWeight: '400'
+    lineHeight: 24px
+    letterSpacing: 0em
+  body-md:
+    fontFamily: Outfit
+    fontSize: 14px
+    fontWeight: '400'
+    lineHeight: 20px
+    letterSpacing: 0em
+  data-metric:
+    fontFamily: Space Mono
+    fontSize: 28px
+    fontWeight: '700'
+    lineHeight: 32px
+    letterSpacing: -0.04em
+  data-tabular:
+    fontFamily: Space Mono
+    fontSize: 13px
+    fontWeight: '400'
+    lineHeight: 18px
+    letterSpacing: -0.01em
+  label-code:
+    fontFamily: Space Mono
+    fontSize: 11px
+    fontWeight: '700'
+    lineHeight: 16px
+    letterSpacing: 0.06em
+rounded:
+  sm: 0.25rem
+  DEFAULT: 0.5rem
+  md: 0.75rem
+  lg: 1rem
+  xl: 1.5rem
+  full: 9999px
+spacing:
+  gutter: 1.25rem
+  gutter-desktop: 1.5rem
+  margin: 1rem
+  margin-tablet: 1.5rem
+  margin-desktop: 2.5rem
+  space-xs: 0.25rem
+  space-sm: 0.5rem
+  space-md: 1rem
+  space-lg: 1.5rem
+  space-xl: 2.5rem
+---
+
+## Brand & Style
+
+This design system establishes a high-performance, precision-driven CRM interface designed for ambitious sales teams, revenue leaders, and modern relationship managers. The visual identity sits at the intersection of deep-sea atmospheric minimalism and high-voltage technical precision.
+
+- **Brand Personality**: Insightful, decisive, razor-sharp, and motivating. It avoids bureaucratic enterprise clutter in favor of an energetic command-center feel.
+- **Target Audience**: High-growth sales representatives, account executives, and revenue operations directors who live in metrics, pipeline velocity, and client communications daily.
+- **Emotional Response**: Empowering control, clarity amid high data density, and an immediate rush of momentum upon converting leads or hitting targets.
+- **Design Movement**: Contemporary Dark-Mode Precision Glassmorphism. The system employs deeply saturated oceanic canvases, refined translucent surface sheets, low-contrast luminous ghost borders, and surgical bursts of high-vis acid lime to draw focus instantly to what drives revenue.
+
+## Colors
+
+The palette leverages a dark teal baseline paired with high-impact chartreuse/lime accents to achieve clinical focus and contrast.
+
+- **Primary (`#D3EC00`)**: Electric Lime / Acid Green. Reserved strictly for forward-moving actions, critical deal stages, active metrics, primary conversion buttons, and high-priority pipeline alerts. Text on primary fills is fixed to `#051C24` for peak contrast.
+- **Secondary (`#00E5FF`)**: Cyan Neon. Used for secondary telemetry, communication pulses (inbound emails, calls), and secondary data visualizations.
+- **Tertiary (`#1E4E5F`)**: Mid-tier Petrol. Serves as active container highlights, subtle interactive states, and chip backdrops.
+- **Neutral Canvas (`#051C24`)**: Deep Oceanic Petrol. The master canvas backdrop that grounds the entire CRM experience without producing pure-black eye strain.
+- **Tonal Layers & Translucencies**:
+  - `Surface Sub-level`: `#04151B`
+  - `Surface Card Base`: `rgba(10, 39, 50, 0.72)` (Hex reference: `#0A2732`)
+  - `Surface Card Raised`: `rgba(14, 52, 66, 0.85)` (Hex reference: `#0E3442`)
+  - `Surface Border / Rim`: `rgba(211, 236, 0, 0.12)` on focus/hover; default `rgba(255, 255, 255, 0.08)`
+  - `Text Primary`: `#F0FDF4`
+  - `Text Muted`: `#7E9CA7`
+
+## Typography
+
+The typographic hierarchy pairs the sleek, humanized geometric curves of **Outfit** for structural UI framing and conversational executive prose with the rigorous technical precision of **Space Mono** for telemetry, currency, timestamps, and pipeline stages.
+
+- **Editorial Headings (`Outfit`)**: Fluid, confident, and warm. Gives deal names, account headers, and greeting titles an approachable yet polished executive polish.
+- **Body Text (`Outfit`)**: Ensures extended communications, client conversation threads, and deal notes remain effortlessly legible and friendly.
+- **Numeric & Data Typography (`Space Mono`)**: All monetary figures (`$124,500`), lead scores (`98/100`), contract IDs, and table indices utilize `Space Mono`. Monospaced tabular alignment guarantees vertical scanning integrity across deals and revenue forecasts.
+
+## Layout & Spacing
+
+The layout is built upon a flexible 12-column adaptive grid designed to accommodate wide multi-pipeline boards, dense data grids, and collapsible communication drawers.
+
+- **Grid Architecture**: 
+  - **Desktop (1280px+)**: 12 columns with `gutter-desktop` (24px) and outer canvas margins of `margin-desktop` (40px). Supports persistent collapsed left navigation (72px or 240px expanded) and dynamic right-side contact panels.
+  - **Tablet (768px - 1279px)**: 8 columns with `gutter` (20px) and outer margin of `margin-tablet` (24px). Pipeline columns scroll horizontally along a snap-track.
+  - **Mobile (below 768px)**: 4 columns with `space-md` gutters and `margin` (16px). Pipeline stages switch to segmented tab views.
+- **Rhythm Principle**: Internal card padding standardizes on `space-lg` (24px) for dashboard summary widgets and `space-md` (16px) for pipeline deal tiles to maximize tactical density without crowding.
+
+## Elevation & Depth
+
+Visual depth is achieved through translucent planar layering, backdrop filtering, and ambient cyan-tinted atmospheric glows rather than opaque dropshadows.
+
+- **Canvas Foundation**: Base background layer sits at `#051C24`.
+- **Card Level 1 (Resting Sheets)**: Background set to `rgba(10, 39, 50, 0.70)` backed by `backdrop-filter: blur(16px)`. Border is a crisp 1px solid `rgba(255, 255, 255, 0.07)`. No heavy dropshadows.
+- **Card Level 2 (Interactive Hover / Modals)**: Background elevates to `rgba(14, 52, 66, 0.90)` backed by `backdrop-filter: blur(24px)`. Border transitions to `rgba(211, 236, 0, 0.25)`. A diffused ambient edge-glow is applied: `box-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.45), 0 0 16px -2px rgba(211, 236, 0, 0.08)`.
+- **Floating Overlays & Drawers**: Solid-backed petrol `#07212B` with a left/top border highlighting at `rgba(211, 236, 0, 0.20)` and an ambient deep drop shadow: `0 24px 48px -12px rgba(2, 10, 14, 0.70)`.
+
+## Shapes
+
+The design system employs a soft, highly modern geometry that balances technical structure with high tactile comfort.
+
+- **Containers & Surface Cards**: Default to `rounded-lg` (16px) and large dashboard panels to `rounded-xl` (24px). This softens the high-contrast data presentation.
+- **Pills & Indicator Badges**: Deal statuses, tags, KPI flags, and micro-metrics are strictly fully rounded pills (`border-radius: 9999px`) to create clear geometric contrast against rectangular data surfaces.
+- **Buttons & Action Controls**: Inputs and primary actions adopt an 8px to 12px radius, preserving an intentional, clickable silhouette.
+
+## Components
+
+### Buttons
+- **Primary**: Solid Electric Lime (`#D3EC00`) fill with `#051C24` bold typography (`Outfit` 600). Hover state features subtle brightness escalation (`#E2FD0D`) accompanied by a neon glow aura (`box-shadow: 0 0 18px rgba(211, 236, 0, 0.35)`). Active state applies a subtle scale compress (`0.98`).
+- **Secondary / Ghost**: Translucent background (`rgba(14, 52, 66, 0.5)`), border `1px solid rgba(255, 255, 255, 0.12)`, text `#F0FDF4`. Hover triggers border transition to `rgba(211, 236, 0, 0.4)`.
+- **Destructive**: Translucent dark crimson tint (`rgba(239, 68, 68, 0.15)`) with crimson border and `#FCA5A5` text.
+
+### Chips & Badges
+- Pill-shaped (`rounded-full`). 
+- Status chips leverage low-opacity tinted grounds (`rgba(211, 236, 0, 0.1)`) paired with uppercase mono text (`Space Mono`, 11px, weight 700) in `#D3EC00`.
+- Stale or idle deal indicators utilize muted teal (`rgba(126, 156, 167, 0.15)`) with `#7E9CA7` typography.
+
+### Input Fields & Search Bars
+- Background `rgba(10, 39, 50, 0.60)` with inset ghost border `rgba(255, 255, 255, 0.08)`.
+- Radius `10px`. 
+- Focus state activates an instantaneous crisp lime border highlight `rgba(211, 236, 0, 0.8)` with a faint outer ring glow `0 0 0 3px rgba(211, 236, 0, 0.15)`. Text inputs utilize `Outfit`, while currency and numerical inputs immediately switch to `Space Mono`.
+
+### Checkboxes & Radio Buttons
+- Checkbox squares utilize an 6px radius; radios are circular.
+- Unchecked: 1.5px border `rgba(255, 255, 255, 0.2)` over clear background.
+- Checked: `#D3EC00` background fill with a deep navy `#051C24` check mark icon, instantly recognizable against the dark canvas.
+
+### Cards & Pipeline Tiles
+- Built with translucent glass backing (`#0A2732` at 75% opacity with 12px blur).
+- Draggable pipeline cards feature a delicate left indicator strip colored by deal probability or urgency.
+- Dragging state increases elevation, elevates card opacity to 95%, and casts an accent glow.
+
+### Deal Metric Widget (Domain-Specific)
+- Prominent KPI widgets house large `data-metric` figures in `Space Mono` alongside an inline delta indicator (e.g., `▲ +18.4%` in `#D3EC00`). 
+- Features micro-sparklines rendered in `#00E5FF` layered over a faint glowing gradient fill.
